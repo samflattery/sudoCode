@@ -1,0 +1,44 @@
+Assignment:
+ASSIGN
+
+Types:
+INT
+STRING
+CHAR
+BOOL
+
+Boolean Operator:
+AND
+OR
+NOT
+
+Comparison Operator:
+LT
+LE
+GT
+GE
+EQ
+
+Arithmetic Operators:
+PLUS
+DIV
+MULT
+SUBT
+MOD
+
+Function:
+FUNC
+RET
+MAIN
+
+If statements:
+IF
+ELIF
+ELSE
+
+Loops:
+FOR { INIT, TEST, UPDATE }
+WHILE { TEST }
+
+Printing:
+PRINT { <ARGUMENT>, <TYPE> }
