@@ -124,9 +124,13 @@ vector<Token> Lexer::parse_tokens() {
 }
 
 int main() {
-	Reader r("test.txt");
+	Reader r("docs/test.txt");
 	size_t length;
 	const char *c = r.read_file(length);
+	if (c == NULL) {
+		std::cout << "Failed to read file" << std::endl;
+		return 1;
+	}
 	std::cout << c << std::endl;
 
 	Lexer lexer(c);

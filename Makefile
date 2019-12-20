@@ -7,24 +7,22 @@ CC = gcc
 CXX = g++-9
 CXXFLAGS = -g -Og -Wall -std=c++17
 DEPS = lexer.hpp dfa.hpp tokens.hpp reader.hpp
-OBJ = lexer.o dfa.o
+OBJDIR = build
+BINDIR = bin
+vpath %.hpp src
+vpath %.cpp src
+OBJ = $(addprefix $(OBJDIR)/, lexer.o dfa.o reader.o)
 
 # Default build rule
 .PHONY: all
 all: lexer
 
-lexer: lexer.o dfa.o reader.o
-	$(CXX) $(CXXFLAGS) -o lexer lexer.o dfa.o reader.o
+lexer: $(OBJ)
+	$(CXX) $(CXXFLAGS) -o lexer $(OBJ)
 
-lexer.o: lexer.cpp $(DEPS)
-	$(CXX) $(CXXFLAGS) -c lexer.cpp
-
-dfa.o: dfa.cpp $(DEPS)
-	$(CXX) $(CXXFLAGS) -c dfa.cpp
-
-reader.o: reader.cpp reader.hpp
-	$(CXX) $(CXXFLAGS) -c reader.cpp
+$(OBJDIR)/%.o: %.cpp $(DEPS)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 .PHONY: clean
 clean:
-	rm -f *.o lexer a.out
+	rm -f $(OBJDIR)/*.o lexer a.out
