@@ -1,4 +1,0 @@
-Define the tokens the language will use
-Create a lexer to parse the code into those tokens
-Create a parser to parse the tokens into an abstract syntax tree
-Create a program to traverse and execute the syntax tree

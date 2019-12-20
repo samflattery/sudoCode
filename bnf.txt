@@ -20,9 +20,9 @@
 
 <declaration> ::= "declare that" <qualified name> "exists and instantiate it to the value of" <expression>
 
-<set_variable> ::= "set the value of <name> to be the value of <expression>"
+<set_variable> ::= "set the value of <literal> to be the value of <expression>"
 
-<arith_expression> ::= "compute the value of" <name> <operator> <name> "and store it in" <name>
+<arith_expression> ::= "store the value of" <expression> "in" <name>
 
 <func_declaration> ::= "define a function called <name> that takes in" <qualified name> "and returns" "a" | "an" <type> by executing the code between the following curly braces { <expressions> }
 
