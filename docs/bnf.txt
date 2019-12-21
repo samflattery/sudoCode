@@ -16,6 +16,12 @@
 
 <name> ::= <anything but a keyword>
 
+<expression> ::= <term> ((PLUS | MINUS) <term>)*
+
+<term> ::= <factor> ((MUL | DIV) <factor>)*
+
+<factor> ::= <integer> | <lparen> <expression> <rparen>
+
 <qualified_name> ::= <type> "called" <name>
 
 <declaration> ::= "declare that" <qualified name> "exists and instantiate it to the value of" <expression>

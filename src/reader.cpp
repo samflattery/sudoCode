@@ -1,4 +1,4 @@
-#include "reader.hpp"
+#include "reader.h"
 
 Reader::Reader(std::string filename) {
 	m_closed = false;

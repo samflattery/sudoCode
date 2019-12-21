@@ -1,5 +1,9 @@
 #ifndef __TOKENS_H__
 #define __TOKENS_H__
+
+#include <string>
+#include <ostream>
+
 enum Kind {
 	CALLD,
 	DECLR,
@@ -27,4 +31,8 @@ struct Token {
 	Kind kind;
 	std::string lexeme;
 };
+
+std::ostream& operator<<(std::ostream &os, const Kind &k);
+std::ostream& operator<<(std::ostream &os, const Token &t);
+
 #endif /* __TOKENS_H__ */

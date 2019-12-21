@@ -1,28 +1,24 @@
-#
-# Makefile for sudoCode
-# CXXFLAGS = -g -Og -Wall -Wc++11-extensions -std=c++17 -stdlib=libc++
-#
+# Make sudoCode
 
 CC = gcc
 CXX = g++-9
 CXXFLAGS = -g -Og -Wall -std=c++17
-DEPS = lexer.hpp dfa.hpp tokens.hpp reader.hpp
+DEPS = sudoCode.h parser.h lexer.h dfa.h tokens.h reader.h parsetree.h
 OBJDIR = build
-BINDIR = bin
-vpath %.hpp src
+vpath %.h src
 vpath %.cpp src
-OBJ = $(addprefix $(OBJDIR)/, lexer.o dfa.o reader.o)
+OBJ = $(addprefix $(OBJDIR)/, sudoCode.o parser.o lexer.o dfa.o reader.o tokens.o parsetree.o)
 
 # Default build rule
 .PHONY: all
-all: lexer
+all: sudoCode
 
-lexer: $(OBJ)
-	$(CXX) $(CXXFLAGS) -o lexer $(OBJ)
+sudoCode: $(OBJ)
+	$(CXX) $(CXXFLAGS) -o sudoCode $(OBJ)
 
 $(OBJDIR)/%.o: %.cpp $(DEPS)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 .PHONY: clean
 clean:
-	rm -f $(OBJDIR)/*.o lexer a.out
+	rm -f $(OBJDIR)/*.o sudoCode a.out

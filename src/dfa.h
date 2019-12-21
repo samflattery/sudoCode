@@ -2,7 +2,10 @@
 #include <string>
 #include <vector>
 #include <numeric>
-#include "tokens.hpp"
+#include "tokens.h"
+
+#ifndef __DFA_H__
+#define __DFA_H__
 
 using std::string;
 using std::vector;
@@ -15,10 +18,11 @@ struct state {
 
 class DFA {
 public:
-	bool recognize_string(const char*& s, struct Token& tok);
+	bool recognize_string(const char*& s, Token& tok);
 	void register_state(struct state& st);
 	void register_states(vector<struct state>& states);
 private:
 	vector<struct state> m_states;
 };
 
+#endif /* __DFA_H__ */

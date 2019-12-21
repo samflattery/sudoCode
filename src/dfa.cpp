@@ -1,4 +1,4 @@
-#include "dfa.hpp"
+#include "dfa.h"
 
 /* register_string:
  * ----------------
@@ -30,7 +30,7 @@ void DFA::register_states(vector<struct state>& states) {
  *  returns true iff s has been registered as an accepting state
  *  if so, sets k and l to the corresponding kind and lexeme
  */
-bool DFA::recognize_string(const char*& c, struct Token& tok) {
+bool DFA::recognize_string(const char*& c, Token& tok) {
 	const char *start = c;
 	for (auto match : m_states) {
 		unsigned int i;

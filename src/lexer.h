@@ -1,11 +1,14 @@
+#ifndef __LEXER_H__
+#define __LEXER_H__
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <sstream>
 #include <regex>
-#include "tokens.hpp"
-#include "dfa.hpp"
-#include "reader.hpp"
+#include "tokens.h"
+#include "dfa.h"
+#include "reader.h"
 
 using std::vector;
 using std::string;
@@ -18,11 +21,11 @@ public:
 		m_ss.str(string());
 		m_ss.clear();
 	}
-	vector<struct Token> parse_tokens();
+	vector<Token> tokenize();
 
 private:
 	DFA m_dfa;
-	vector<struct Token> m_tokens;
+	vector<Token> m_tokens;
 	vector<struct state> m_states;
 	std::stringstream m_ss;
 	const char *m_str;
@@ -36,3 +39,4 @@ private:
 	bool is_number(string& s);
 };
 
+#endif /*__LEXER_H__ */

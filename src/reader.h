@@ -5,6 +5,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#ifndef __READER_H__
+#define __READER_H__
+
 class Reader {
 public:
 	Reader(std::string filename);
@@ -18,3 +21,5 @@ private:
 	char *m_file_addr;
 	bool m_closed;
 };
+
+#endif /* __READER_H__ */
