@@ -1,7 +1,0 @@
-!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
-CC	/Users/samflattery/dev/sudoCode/Makefile	/^CC = gcc$/;"	m	language:Make
-CXX	/Users/samflattery/dev/sudoCode/Makefile	/^CXX = g++-9$/;"	m	language:Make
-CXXFLAGS	/Users/samflattery/dev/sudoCode/Makefile	/^CXXFLAGS = -g -Og -Wall -std=c++17$/;"	m	language:Make
-DEPS	/Users/samflattery/dev/sudoCode/Makefile	/^DEPS = sudoCode.h parser.h lexer.h dfa.h tokens.h reader.h parsetree.h$/;"	m	language:Make
-OBJ	/Users/samflattery/dev/sudoCode/Makefile	/^OBJ = $(addprefix $(OBJDIR)\/, sudoCode.o parser.o lexer.o dfa.o reader.o tokens.o parsetree.o)$/;"	m	language:Make
-OBJDIR	/Users/samflattery/dev/sudoCode/Makefile	/^OBJDIR = build$/;"	m	language:Make
