@@ -27,6 +27,7 @@ const char *Reader::read_file(size_t &length) {
 	m_length = sb.st_size;
 	char *addr = static_cast<char*>(mmap(NULL, m_length, PROT_READ,
 				MAP_PRIVATE, m_fd, 0u));
+
 	if (addr == MAP_FAILED) {
 		return NULL;
 	}

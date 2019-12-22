@@ -16,10 +16,11 @@ private:
 
 class ParseTree {
 public:
-	ParseTree(ParseTreeNode *root) : m_root(root) {}
+	ParseTree(ParseTreeNode root) : m_root(root) {}
 	~ParseTree() {}
+	ParseTreeNode *add_node(Token);
 private:
-	ParseTreeNode *m_root;
+	ParseTreeNode m_root;
 };
 
 #endif /* __PARSETREE_H__ */

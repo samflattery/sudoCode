@@ -1,56 +1,103 @@
-<type> ::= <a whole number> | <a sequence of characters> | <a character> | <a true or false value> | <a value with a decimal point>
+# Grammar for sudoCode
+# BNF form largely inspired by C grammar specification found at:
+# https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
 
-<integer> ::= "0...9"*
-<character> ::= "a...z" | "A...Z" | "0...9" (single quotes around)
-<string> ::= <character>* (double quotes around)
-<boolean> ::= true | false
-<float> ::= "0...9"* "." "0...9"*
+<type-specifier> ::= <a whole number>
+                   | <a sequence of characters>
+                   | <a character>
+                   | <a true or false value>
+                   | <a real number>
 
-<boolean_operator> ::= and also | or else | not
+<a whole number> ::= (0...9)*
+<a character> ::= (a...z) | (A...Z) | (0...9) (single quotes around)
+<a sequence of characters> ::= <character>? (double quotes around)
+<a true or false value> ::= true | false
+<a real number> ::= <integer>.<integer>
 
-<comparison_operator> ::= is less than | is greater than | is equal to
-                        | is greater than or equal to | is less than or equal to
+<boolean-operator> ::= and also | or else | not
 
-<arith_operator> ::= "added to" | "subtracted from" | "multiplied by"
-                   | "divided by" | modulo"
+<comparison-operator> ::= is less than
+                        | is greater than
+                        | is equal to
+                        | is greater than or equal to
+                        | is less than or equal to
 
-<name> ::= <anything but a keyword>
+<multiplicative-operator> ::= multiplied by
+                            | divided by
+                            | modulo
 
-<expression> ::= <term> ((PLUS | MINUS) <term>)*
+<additive-operator> ::= added to
+                      | subtracted from
 
-<term> ::= <factor> ((MUL | DIV) <factor>)*
+<multiplicative-expression> ::= <a whole number>
+                              | <multiplicative-expression> <multiplicative-operator> <unary-expression>
 
-<factor> ::= <integer> | <lparen> <expression> <rparen>
+<additive-expression> ::= <multiplicative-expression>
+                        | <additive-expresion> <additive-operator> <multiplicative-expression>
 
-<qualified_name> ::= <type> "called" <name>
+<unary-expression> ::= <unary-operator> <unary-expression>
+                     | <primary-expression>
 
-<declaration> ::= "declare that" <qualified name> "exists and instantiate it to the value of" <expression>
+<primary-expression> ::= <identifier>
+                       | <constant>
+                       | <string>
 
-<set_variable> ::= "set the value of <literal> to be the value of <expression>"
+<constant> ::= <integer-constant>
+             | <character-constant>
+             | <floating-constant>
 
-<arith_expression> ::= "store the value of" <expression> "in" <name>
+<unary-operator> ::= -
 
-<func_declaration> ::= "define a function called <name> that takes in" <qualified name> "and returns" "a" | "an" <type> by executing the code between the following curly braces { <expressions> }
+<declarator> ::= <type-specifier> called <identifier>
 
-<main_func_declaration> ::= "define the function that the program will start executing in that takes in nothing and returns a whole number by executing the code between the following curly braces"
+<declaration> ::= declare that <declarator> exists and <assignment-operator> <expression>
 
-<if_statement> ::= if it is true that <boolean_expression>, then execute the instructions between the following curly braces { <expressions> }
-                |  else, if it is true that <boolean_expression>, then execute the instructions between the following curly braces { <expressions> }
-                |  else, if none of the above are true, then execute the code between the following curly braces { <expressions> }
+<assignment-expression> ::= <assignment-operator> <expression>
 
-<for_loop> ::= <set_variable> | <declaration> "and while it is true that" <expression> ", execute the instructions between the following curly braces, performing <expression> at the end of every loop { <expressions> }"
+<assignment-operator> ::= assign {<it> | <identifier> } the value of
 
-<while_loop> ::= "while it is true that <expression>" ", execute the instructions between the following curly braces { <expressions> }
+<arithmetic-expression> ::= <multiplicative-expression>
+                          | <additive-expression>
 
-<return> ::= "return the value of <expression from this function"
+<expression> ::= <assignment-expression>
+               | <arithmetic-expression>
 
-<printing> ::= "output the value of <expression> on to the screen in the form of a <type>"
+<eol> ::= and then end this line
+
+<statement> ::= <expression-statement>
+              | <if-statement>
+              | <iteration-statement>
+              | <jump-statement>
+              | <compound-statement>
+
+<compound-statement> ::= { {<declaration>}* {<statement>}*}
+
+<curly-brace-id> ::= execute the instructions between the following curly braces
+
+<expression-statement> ::= {<expression>}? <eol>
+
+<if-statement> ::= if it is true that <expression>, then <curly-brace-id> { <statement> }
+                 | if it is true that <expression>, then <curly-brace-id> { <statement> }, else, if the above are false, then <curly-brace-id> { <statement> }
+
+<iteration-statement> ::= <expression> and while it is true that <expression>, <curly-brace-id>, performing <expression> at the end of every loop { <statement> }
+                        | <while it is true that <expression>, <curly-brace-id> { <statements> }
+
+<jump-statement> ::= return the value of <expression> from this function
+
+<declaration-list> ::= <declaration>
+                     | <declaration>, <declaration-list>
+
+<func-definition> ::= define a function called <identifier> that takes in <declaration-list> and returns <type-specifier> that will <curly-brace-id> { <compound-statement> }
+
+<main_func_declaration> ::= "define the function that the program will start executing in that takes in nothing and returns a whole number that will <curly-brace-id> { <compound-statement> }"
+
+<printing> ::= "output the value of <expression> to the terminal in the form of a <type>"
+
 
 Hello world:
 ------------
-
 define the function that the program will start executing in that takes in nothing and returns a whole number by executing the code between the following curly braces {
-	declare that a sequence of characters called hello exists and instantiate it to the value of "hello world\n" and then end this line
-	output the value of hello on to the screen in the form of a sequence of characters and then end this line
-	return the value of 0 from this function and then end this line
+    declare that a sequence of characters called hello exists and assign it the value of "hello world\n" and then end this line
+    output the value of hello on to the screen in the form of a sequence of characters and then end this line
+    return the value of 0 from this function and then end this line
 }

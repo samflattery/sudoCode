@@ -58,7 +58,7 @@ void Lexer::register_states() {
 
 bool Lexer::parse_word() {
 	std::string x;
-	while (*m_str != ' ') {
+	while (*m_str != '\0' && *m_str != ' ') {
 		x += *m_str;
 		m_str++;
 	}

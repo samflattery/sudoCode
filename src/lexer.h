@@ -16,18 +16,12 @@ using std::string;
 class Lexer {
 public:
 	Lexer(const char *str) : m_str(str) { }
-	~Lexer() {
-		/* free the stringstream */
-		m_ss.str(string());
-		m_ss.clear();
-	}
 	vector<Token> tokenize();
 
 private:
 	DFA m_dfa;
 	vector<Token> m_tokens;
 	vector<struct state> m_states;
-	std::stringstream m_ss;
 	const char *m_str;
 
 	void register_states();
