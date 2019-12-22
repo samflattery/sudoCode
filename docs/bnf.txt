@@ -29,15 +29,6 @@
 <additive-operator> ::= added to
                       | subtracted from
 
-<multiplicative-expression> ::= <a whole number>
-                              | <multiplicative-expression> <multiplicative-operator> <unary-expression>
-
-<additive-expression> ::= <multiplicative-expression>
-                        | <additive-expresion> <additive-operator> <multiplicative-expression>
-
-<unary-expression> ::= <unary-operator> <unary-expression>
-                     | <primary-expression>
-
 <primary-expression> ::= <identifier>
                        | <constant>
                        | <string>
@@ -48,16 +39,23 @@
 
 <unary-operator> ::= -
 
+<unary-expression> ::= <unary-operator> <unary-expression>
+					 | <primary-expression>
+
 <declarator> ::= <type-specifier> called <identifier>
 
 <declaration> ::= declare that <declarator> exists and <assignment-operator> <expression>
 
 <assignment-expression> ::= <assignment-operator> <expression>
 
-<assignment-operator> ::= assign {<it> | <identifier> } the value of
+<assignment-operator> ::= assign ( <it> | <identifier> ) the value of
 
-<arithmetic-expression> ::= <multiplicative-expression>
-                          | <additive-expression>
+<arithmetic-expression> ::= <term> ( <additive-operator> term)*
+
+<term> ::= <factor> (<multiplicative-operator> <factor>)*
+
+<factor> ::= <integer>
+		   | <identifier>
 
 <expression> ::= <assignment-expression>
                | <arithmetic-expression>
@@ -74,7 +72,7 @@
 
 <curly-brace-id> ::= execute the instructions between the following curly braces
 
-<expression-statement> ::= {<expression>}? <eol>
+<expression-statement> ::= (<expression>)? <eol>
 
 <if-statement> ::= if it is true that <expression>, then <curly-brace-id> { <statement> }
                  | if it is true that <expression>, then <curly-brace-id> { <statement> }, else, if the above are false, then <curly-brace-id> { <statement> }

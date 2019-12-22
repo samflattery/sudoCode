@@ -1,6 +1,6 @@
 #include "lexer.h"
 
-bool is_number(string& s) {
+bool Lexer::is_number(string& s) {
 	string::const_iterator it = s.begin();
 	while (it != s.end() && std::isdigit(*it)) ++it;
 	return !s.empty() && it == s.end();
@@ -21,7 +21,7 @@ void Lexer::register_operators() {
 										{ "subtracted from", ARITH_OP, "-" },
 										{ "multiplied by", ARITH_OP, "*" },
 										{ "divided by", ARITH_OP, "/"},
-										{ "modulu", ARITH_OP, "%" }
+										{ "modulo", ARITH_OP, "%" }
 									};
 	for (auto st : states) {
 		m_states.push_back(st);
@@ -57,12 +57,14 @@ void Lexer::register_states() {
 }
 
 bool Lexer::parse_word() {
-	std::string x;
-	while (*m_str != '\0' && *m_str != ' ') {
-		x += *m_str;
+	std::string word;
+	while (*m_str != '\0' && !isspace(*m_str)) {
+		word += *m_str;
+		std::cout << *m_str << std::endl;
 		m_str++;
 	}
-	Token tok = { ID, x };
+	Token tok;
+	is_number(word) ?  tok = { LITERAL, word } : tok = { ID, word };
 	m_tokens.push_back(tok);
 	return true;
 }
