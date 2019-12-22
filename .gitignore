@@ -1,4 +1,4 @@
 tags:
 *.o
-lexer
 .*.swp
+sudoCode
