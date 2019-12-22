@@ -2,17 +2,11 @@
 # BNF form largely inspired by C grammar specification found at:
 # https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
 
-<type-specifier> ::= <a whole number>
-                   | <a sequence of characters>
-                   | <a character>
-                   | <a true or false value>
-                   | <a real number>
-
-<a whole number> ::= (0...9)*
-<a character> ::= (a...z) | (A...Z) | (0...9) (single quotes around)
-<a sequence of characters> ::= <character>? (double quotes around)
-<a true or false value> ::= true | false
-<a real number> ::= <integer>.<integer>
+<type-specifier> ::= a whole number
+                   | a sequence of characters
+                   | a character
+                   | a true or false value
+                   | a real number
 
 <boolean-operator> ::= and also | or else | not
 
@@ -31,11 +25,11 @@
 
 <primary-expression> ::= <identifier>
                        | <constant>
-                       | <string>
 
 <constant> ::= <integer-constant>
              | <character-constant>
              | <floating-constant>
+			 | <string-constant>
 
 <unary-operator> ::= -
 
@@ -44,21 +38,21 @@
 
 <declarator> ::= <type-specifier> called <identifier>
 
-<declaration> ::= declare that <declarator> exists and <assignment-operator> <expression>
+<declaration-expression> ::= declare that <declarator> exists and <assignment-operator> <expression>
 
 <assignment-expression> ::= <assignment-operator> <expression>
 
 <assignment-operator> ::= assign ( <it> | <identifier> ) the value of
 
-<arithmetic-expression> ::= <term> ( <additive-operator> term)*
+<arithmetic-expression> ::= <term> (<additive-operator> <term>)*
 
 <term> ::= <factor> (<multiplicative-operator> <factor>)*
 
-<factor> ::= <integer>
-		   | <identifier>
+<factor> ::= <primary-expression>
 
 <expression> ::= <assignment-expression>
                | <arithmetic-expression>
+			   | <declaration-expression>
 
 <eol> ::= and then end this line
 

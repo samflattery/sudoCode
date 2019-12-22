@@ -60,7 +60,6 @@ bool Lexer::parse_word() {
 	std::string word;
 	while (*m_str != '\0' && !isspace(*m_str)) {
 		word += *m_str;
-		std::cout << *m_str << std::endl;
 		m_str++;
 	}
 	Token tok;

@@ -6,5 +6,6 @@
 #include "lexer.h"
 #include "parser.h"
 #include "tokens.h"
+#include "parsetree.h"
 
 #endif /* __SUDO_H__ */

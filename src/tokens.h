@@ -24,7 +24,9 @@ enum Kind {
 	WHILE,
 	FOR,
 	PRINT,
-	IN
+	IN,
+	LPAREN,
+	RPAREN
 };
 
 struct Token {
