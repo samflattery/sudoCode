@@ -26,11 +26,17 @@ std::ostream& operator<<(std::ostream &os, Rule &r) {
 		case EXP_STMT:
 			os << "EXP_STMT";
 			break;
+		case ASSIGN_EXP:
+			os << "ASSIGN_EXP";
+			break;
 		case DECLRTN:
 			os << "DECLRTN";
 			break;
 		case DECLRTR:
 			os << "DECLRTR";
+			break;
+		case ASSIGNR:
+			os << "ASSIGNR";
 			break;
 		default:
 			os << "not implemented";

@@ -2,13 +2,19 @@
 
 std::ostream& operator<<(std::ostream &os, const Kind &k) {
 	switch (k) {
-		case IN:
-			os << "IN";
+		case EXIST:
+			os << "EXIST";
+			break;
+		case VALUE:
+			os << "VALUE";
 			break;
 		case CALLD:
 			os << "CALLED";
 			break;
 		case EOL:
+			os << "EOL";
+			break;
+		case END:
 			os << "EOL";
 			break;
 		case DECLR:

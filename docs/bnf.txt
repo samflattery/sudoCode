@@ -38,11 +38,11 @@
 
 <declarator> ::= <type-specifier> called <identifier>
 
-<declaration-expression> ::= declare that <declarator> exists and <assignment-operator> (<expression> | <primary-expression>)
+<declaration-expression> ::= declare that <declarator> exists and <assignment-expression>
 
-<assignment-expression> ::= <assignment-operator> <expression>
+<assignment-expression> ::= <assigner> ( <expression> | <primary-expression> )
 
-<assignment-operator> ::= assign ( <it> | <identifier> ) the value of
+<assigner> ::= assign <identifier> the value of
 
 <arithmetic-expression> ::= <term> (<additive-operator> <term>)*
 

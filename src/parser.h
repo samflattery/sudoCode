@@ -59,19 +59,11 @@ private:
 
 	/* declaration/assignment expression */
 	shared_ptr<PNode> parse_declarator();
-
-	/* operators */
-	shared_ptr<PNode> parse_mult_op();
-	shared_ptr<PNode> parse_add_op();
-	shared_ptr<PNode> parse_comp_op();
+	shared_ptr<PNode> parse_assigner();
 
 	/* arithmetic */
 	shared_ptr<PNode> parse_term();
 	shared_ptr<PNode> parse_factor();
-
-	/* primary expressions */
-	shared_ptr<PNode> parse_identifier();
-	shared_ptr<PNode> parse_constant();
 };
 
 #endif /* __PARSER_H__ */

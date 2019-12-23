@@ -1,0 +1,134 @@
+Token: DECLR	Lexeme: 
+Token: TYPE	Lexeme: INT
+Token: CALLED	Lexeme: 
+Token: ID	Lexeme: x
+Token: EXIST	Lexeme: 
+Token: ASSIGN	Lexeme: 
+Token: ID	Lexeme: it
+Token: VALUE	Lexeme: 
+Token: LITERAL	Lexeme: 5
+Token: EOL	Lexeme: 
+Token: DECLR	Lexeme: 
+Token: TYPE	Lexeme: INT
+Token: CALLED	Lexeme: 
+Token: ID	Lexeme: y
+Token: EXIST	Lexeme: 
+Token: ASSIGN	Lexeme: 
+Token: ID	Lexeme: it
+Token: VALUE	Lexeme: 
+Token: LITERAL	Lexeme: 6
+Token: EOL	Lexeme: 
+Token: ASSIGN	Lexeme: 
+Token: ID	Lexeme: x
+Token: VALUE	Lexeme: 
+Token: ID	Lexeme: x
+Token: ADD_OP	Lexeme: +
+Token: ID	Lexeme: y
+Token: EOL	Lexeme: 
+peek in exp Token: DECLR	Lexeme: 
+about to parse exp
+before parsing exp: Token: LITERAL	Lexeme: 5
+peek in exp Token: LITERAL	Lexeme: 5
+peek in assign Token: EOL	Lexeme: 
+peek in exp Token: DECLR	Lexeme: 
+about to parse exp
+before parsing exp: Token: LITERAL	Lexeme: 6
+peek in exp Token: LITERAL	Lexeme: 6
+peek in assign Token: EOL	Lexeme: 
+peek in exp Token: ASSIGN	Lexeme: 
+about to parse exp
+before parsing exp: Token: ID	Lexeme: x
+peek in exp Token: ID	Lexeme: x
+peek in assign Token: EOL	Lexeme: 
+>MAIN_FUN
+-->STMT
+---->EXP_STMT
+------>EXP
+-------->DECLRTN
+---------->Token: DECLR	Lexeme: 
+
+---------->DECLRTR
+------------>Token: TYPE	Lexeme: INT
+
+------------>Token: CALLED	Lexeme: 
+
+------------>Token: ID	Lexeme: x
+
+---------->Token: EXIST	Lexeme: 
+
+---------->ASSIGN_EXP
+------------>ASSIGNR
+-------------->Token: ASSIGN	Lexeme: 
+
+-------------->Token: ID	Lexeme: it
+
+-------------->Token: VALUE	Lexeme: 
+
+------------>EXP
+-------------->ARITH_EXP
+---------------->TERM
+------------------>FACTOR
+-------------------->PRIM_EXP
+---------------------->Token: LITERAL	Lexeme: 5
+
+------>Token: EOL	Lexeme: 
+
+-->STMT
+---->EXP_STMT
+------>EXP
+-------->DECLRTN
+---------->Token: DECLR	Lexeme: 
+
+---------->DECLRTR
+------------>Token: TYPE	Lexeme: INT
+
+------------>Token: CALLED	Lexeme: 
+
+------------>Token: ID	Lexeme: y
+
+---------->Token: EXIST	Lexeme: 
+
+---------->ASSIGN_EXP
+------------>ASSIGNR
+-------------->Token: ASSIGN	Lexeme: 
+
+-------------->Token: ID	Lexeme: it
+
+-------------->Token: VALUE	Lexeme: 
+
+------------>EXP
+-------------->ARITH_EXP
+---------------->TERM
+------------------>FACTOR
+-------------------->PRIM_EXP
+---------------------->Token: LITERAL	Lexeme: 6
+
+------>Token: EOL	Lexeme: 
+
+-->STMT
+---->EXP_STMT
+------>EXP
+-------->ASSIGN_EXP
+---------->ASSIGNR
+------------>Token: ASSIGN	Lexeme: 
+
+------------>Token: ID	Lexeme: x
+
+------------>Token: VALUE	Lexeme: 
+
+---------->EXP
+------------>ARITH_EXP
+-------------->TERM
+---------------->FACTOR
+------------------>PRIM_EXP
+-------------------->Token: ID	Lexeme: x
+
+-------------->Token: ADD_OP	Lexeme: +
+
+-------------->TERM
+---------------->FACTOR
+------------------>PRIM_EXP
+-------------------->Token: ID	Lexeme: y
+
+------>Token: EOL	Lexeme: 
+

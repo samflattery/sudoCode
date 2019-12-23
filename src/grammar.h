@@ -11,6 +11,7 @@
 #include <ostream>
 
 enum Rule {
+	ASSIGNR,
 	CONST,
 	DECLRTR,
 	DECLRTN,

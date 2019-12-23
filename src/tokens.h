@@ -14,6 +14,7 @@ enum Kind {
 	CALLD,
 	DECLR,
 	ASSIGN,
+	EXIST,
 	LITERAL,
 	EOL,
 	ID,
@@ -28,9 +29,10 @@ enum Kind {
 	WHILE,
 	FOR,
 	PRINT,
-	IN,
+	VALUE,
 	LPAREN,
-	RPAREN
+	RPAREN,
+	END
 };
 
 struct Token {

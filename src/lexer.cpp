@@ -47,10 +47,9 @@ void Lexer::register_operators() {
 void Lexer::register_declarations() {
 	vector<struct state> states =	{	{ "declare that", DECLR, "" },
 										{ "called", CALLD, "" },
-										{ "store the value of", ASSIGN, "" },
-										{ "in", IN, "" },
-										{ "exists and instantiate it to the "
-										  "value of", ASSIGN, "" },
+										{ "assign", ASSIGN, "" },
+										{ "the value of", VALUE, "" },
+										{ "exists and", EXIST, "" },
 									};
 	for (auto st : states) {
 		m_states.push_back(st);
