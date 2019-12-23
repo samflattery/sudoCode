@@ -1,14 +1,14 @@
 #include "parsetree.h"
 
-void InteriorNode::set_children(vector<ParseTreeNode*> children) {
+void InteriorNode::set_children(vector<shared_ptr<ParseTreeNode>> children) {
 	m_children = children;
 }
 
-vector<ParseTreeNode*> InteriorNode::get_children() {
+vector<shared_ptr<ParseTreeNode>> InteriorNode::get_children() {
 	return m_children;
 }
 
-void InteriorNode::add_child(ParseTreeNode *child) {
+void InteriorNode::add_child(shared_ptr<ParseTreeNode> child) {
 	m_children.push_back(child);
 }
 

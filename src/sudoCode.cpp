@@ -25,17 +25,6 @@ int main(int argc, char *argv[]) {
 
 	Parser parser(tokens);
 
-	/* std::cout << "-------------" << std::endl; */
-	LNode l( { LITERAL, "5"} );
-	LNode l2( { LITERAL, "3"} );
-	INode i(EXP);
-
-	vector<PNode*> k = {&l, &l2};
-	i.set_children(k);
-
-	/* i.traverse(); */
-	/* std::cout << "-------------" << std::endl; */
-
 	auto tree = parser.generate_parse_tree();
 	tree.traverse(0);
 	return 0;

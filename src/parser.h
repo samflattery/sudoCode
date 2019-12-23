@@ -3,12 +3,15 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 #include "lexer.h"
 #include "tokens.h"
 #include "parsetree.h"
 #include "grammar.h"
 
 using std::vector;
+using std::shared_ptr;
+using std::make_shared;
 typedef ParseTreeNode PNode;
 typedef InteriorNode INode;
 typedef LeafNode LNode;
@@ -32,28 +35,28 @@ private:
 	bool tokens_empty();
 
 	/* statements */
-	PNode *parse_statement();
-	PNode *parse_exp_stmt();
+	shared_ptr<PNode> parse_statement();
+	shared_ptr<PNode> parse_exp_stmt();
 
 	/* expressions */
-	PNode *parse_exp();
-	PNode *parse_assign_exp();
-	PNode *parse_arith_exp();
-	PNode *parse_declr_exp();
-	PNode *parse_prim_exp();
-	PNode *parse_eol();
+	shared_ptr<PNode> parse_exp();
+	shared_ptr<PNode> parse_assign_exp();
+	shared_ptr<PNode> parse_arith_exp();
+	shared_ptr<PNode> parse_declr_exp();
+	shared_ptr<PNode> parse_prim_exp();
+	shared_ptr<PNode> parse_eol();
 
 	/* operators */
-	PNode *parse_mult_op();
-	PNode *parse_add_op();
+	shared_ptr<PNode> parse_mult_op();
+	shared_ptr<PNode> parse_add_op();
 
 	/* arithmetic */
-	PNode *parse_term();
-	PNode *parse_factor();
+	shared_ptr<PNode> parse_term();
+	shared_ptr<PNode> parse_factor();
 
 	/* other */
-	PNode *parse_identifier();
-	PNode *parse_constant();
+	shared_ptr<PNode> parse_identifier();
+	shared_ptr<PNode> parse_constant();
 };
 
 #endif /* __PARSER_H__ */

@@ -1,7 +1,7 @@
 #include "parser.h"
 
 InteriorNode Parser::generate_parse_tree() {
-	vector<PNode*> children;
+	vector<shared_ptr<PNode> > children;
 	while (!tokens_empty()) {
 		children.push_back(parse_statement());
 	}
@@ -9,34 +9,34 @@ InteriorNode Parser::generate_parse_tree() {
 	return m_tree;
 }
 
-PNode *Parser::parse_exp_stmt() {
+shared_ptr<PNode> Parser::parse_exp_stmt() {
 	Token tok = peek();
-	INode *P = new INode(EXP_STMT);
-	PNode *child = tok.kind == EOL ? parse_eol() : parse_exp();
-	if (child == NULL) {
-		delete P;
-		return NULL;
+	shared_ptr<INode> P = make_shared<INode>(EXP_STMT);
+	std::shared_ptr<INode> test = make_shared<INode>(EXP_STMT);
+	shared_ptr<PNode> child = tok.kind == EOL ? parse_eol() : parse_exp();
+	if (child == nullptr) {
+		return nullptr;
 	}
 	P->add_child(child);
 	return P;
 }
 
-PNode *Parser::parse_eol() {
+shared_ptr<PNode> Parser::parse_eol() {
 	Token tok = next();
-	return new LeafNode(tok);
+	return make_shared<LeafNode>(tok);
 }
 
-PNode *Parser::parse_statement() {
-	INode *P = new INode(STMT);
+shared_ptr<PNode> Parser::parse_statement() {
+	shared_ptr<INode> P = make_shared<INode>(STMT);
 	P->add_child(parse_exp_stmt());
 	return P;
 }
 
-PNode *Parser::parse_exp() {
+shared_ptr<PNode> Parser::parse_exp() {
 	Token tok = peek();
 	Kind kind = tok.kind;
-	INode *P = new INode(EXP);
-	PNode *child;
+	shared_ptr<INode> P = make_shared<INode>(EXP);
+	shared_ptr<PNode> child;
 	switch (kind) {
 		case EOL:
 			child = parse_eol();
@@ -53,21 +53,19 @@ PNode *Parser::parse_exp() {
 			child = parse_arith_exp();
 			break;
 		default:
-			delete P;
-			return NULL;
+			return nullptr;
 	}
 	P->add_child(child);
 	return P;
 }
 
-PNode *Parser::parse_term() {
-	INode *P = new INode(TERM);
-	PNode *factor = parse_factor();
-	if (factor == NULL) {
-		delete P;
-		return NULL;
+shared_ptr<PNode> Parser::parse_term() {
+	shared_ptr<INode> P = make_shared<INode>(TERM);
+	shared_ptr<PNode> factor = parse_factor();
+	if (factor == nullptr) {
+		return nullptr;
 	}
-	vector<PNode*> children;
+	vector<shared_ptr<PNode> > children;
 	children.push_back(factor);
 	if (tokens_empty()) {
 		P->set_children(children);
@@ -75,11 +73,10 @@ PNode *Parser::parse_term() {
 	}
 	Token mult = peek();
 	while (mult.lexeme == "*" || mult.lexeme == "/" || mult.lexeme == "%") {
-		PNode *mult_op = parse_mult_op();
-		PNode *factor2 = parse_factor();
-		if (mult_op == NULL || factor2 == NULL) {
-			delete P;
-			return NULL;
+		shared_ptr<PNode> mult_op = parse_mult_op();
+		shared_ptr<PNode> factor2 = parse_factor();
+		if (mult_op == nullptr || factor2 == nullptr) {
+			return nullptr;
 		}
 		children.push_back(mult_op);
 		children.push_back(factor2);
@@ -93,25 +90,23 @@ PNode *Parser::parse_term() {
 	return P;
 }
 
-PNode *Parser::parse_factor() {
-	INode *P = new INode(FACTOR);
-	PNode *child = parse_prim_exp();
-	if (child == NULL) {
-		delete P;
-		return NULL;
+shared_ptr<PNode> Parser::parse_factor() {
+	shared_ptr<INode> P = make_shared<INode>(FACTOR);
+	shared_ptr<PNode> child = parse_prim_exp();
+	if (child == nullptr) {
+		return nullptr;
 	}
 	P->add_child(child);
 	return P;
 }
 
-PNode *Parser::parse_arith_exp() {
-	INode *P = new INode(ARITH_EXP);
-	PNode *term = parse_term();
-	if (term == NULL) {
-		delete P;
-		return NULL;
+shared_ptr<PNode> Parser::parse_arith_exp() {
+	shared_ptr<INode> P = make_shared<INode>(ARITH_EXP);
+	shared_ptr<PNode> term = parse_term();
+	if (term == nullptr) {
+		return nullptr;
 	}
-	vector<PNode*> children;
+	vector<shared_ptr<PNode> > children;
 	children.push_back(term);
 	if (tokens_empty()) {
 		P->set_children(children);
@@ -119,11 +114,10 @@ PNode *Parser::parse_arith_exp() {
 	}
 	Token add = peek();
 	while (add.lexeme == "+" || add.lexeme == "-") {
-		PNode *add_op = parse_add_op();
-		PNode *term2 = parse_term();
-		if (add_op == NULL || term2 == NULL) {
-			delete P;
-			return NULL;
+		shared_ptr<PNode> add_op = parse_add_op();
+		shared_ptr<PNode> term2 = parse_term();
+		if (add_op == nullptr || term2 == nullptr) {
+			return nullptr;
 		}
 		children.push_back(add_op);
 		children.push_back(term2);
@@ -137,22 +131,22 @@ PNode *Parser::parse_arith_exp() {
 	return P;
 }
 
-PNode *Parser::parse_mult_op() {
+shared_ptr<PNode> Parser::parse_mult_op() {
 	Token tok = next();
-	LNode *P = new LNode(tok);
+	shared_ptr<LNode> P = make_shared<LNode>(tok);
 	return P;
 }
 
-PNode *Parser::parse_add_op() {
+shared_ptr<PNode> Parser::parse_add_op() {
 	Token tok = next();
-	LNode *P = new LNode(tok);
+	shared_ptr<LNode> P = make_shared<LNode>(tok);
 	return P;
 }
 
-PNode *Parser::parse_prim_exp() {
+shared_ptr<PNode> Parser::parse_prim_exp() {
 	Token tok = peek();
-	INode *P = new INode(PRIM_EXP);
-	PNode *child;
+	shared_ptr<INode> P = make_shared<INode>(PRIM_EXP);
+	shared_ptr<PNode> child;
 	switch (tok.kind) {
 		case LITERAL:
 			child = parse_constant();
@@ -161,31 +155,30 @@ PNode *Parser::parse_prim_exp() {
 			child = parse_identifier();
 			break;
 		default:
-			delete P;
-			return NULL;
+			return nullptr;
 	}
 	P->add_child(child);
 	return P;
 }
 
-PNode *Parser::parse_identifier() {
+shared_ptr<PNode> Parser::parse_identifier() {
 	Token tok = next();
-	LNode *P = new LNode(tok);
+	shared_ptr<LNode> P = make_shared<LNode>(tok);
 	return P;
 }
 
-PNode *Parser::parse_constant() {
+shared_ptr<PNode> Parser::parse_constant() {
 	Token tok = next();
-	LNode *P = new LNode(tok);
+	shared_ptr<LNode> P = make_shared<LNode>(tok);
 	return P;
 }
 
-PNode *Parser::parse_declr_exp() {
-	return NULL;
+shared_ptr<PNode> Parser::parse_declr_exp() {
+	return nullptr;
 }
 
-PNode *Parser::parse_assign_exp() {
-	return NULL;
+shared_ptr<PNode> Parser::parse_assign_exp() {
+	return nullptr;
 
 }
 

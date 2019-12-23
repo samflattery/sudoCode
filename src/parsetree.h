@@ -5,7 +5,9 @@
 #include "tokens.h"
 #include <vector>
 #include <iostream>
+#include <memory>
 using std::vector;
+using std::shared_ptr;
 
 class ParseTreeNode {
 public:
@@ -18,14 +20,14 @@ class InteriorNode : public ParseTreeNode {
 public:
 	InteriorNode(Rule rule) : m_rule(rule) {}
 	~InteriorNode() {}
-	void set_children(vector<ParseTreeNode*> children);
-	vector<ParseTreeNode*> get_children();
-	void add_child(ParseTreeNode *child);
+	void set_children(vector<shared_ptr<ParseTreeNode>> children);
+	vector<shared_ptr<ParseTreeNode>> get_children();
+	void add_child(shared_ptr<ParseTreeNode> child);
 	Rule m_rule;
 	void traverse();
 	void traverse(int depth);
 private:
-	vector<ParseTreeNode *> m_children;
+	vector<shared_ptr<ParseTreeNode>> m_children;
 };
 
 class LeafNode : public ParseTreeNode {
