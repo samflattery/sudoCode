@@ -135,7 +135,6 @@ shared_ptr<PNode> Parser::parse_assign_exp() {
 	if (phrase == NULL) {
 		return nullptr;
 	}
-	Token tok = peek();
 	shared_ptr<PNode> expr;
 	if ((expr = parse_exp()) == nullptr) {
 		expr = parse_prim_exp();
