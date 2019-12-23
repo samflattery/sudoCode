@@ -16,12 +16,12 @@
 
 class Reader {
 public:
-	Reader(std::string filename);
+	Reader(std::string filename) : m_filename(filename.c_str()) {}
 	~Reader();
 	const char *read_file(size_t &length);
 	bool close_file();
 private:
-	char* m_filename;
+	const char* m_filename;
 	int m_fd;
 	size_t m_length;
 	char *m_file_addr;

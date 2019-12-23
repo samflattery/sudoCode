@@ -1,3 +1,0 @@
-declare that a whole number called x exists and instantiate it to the value of 5 and then end this line
-declare that a whole number called y exists and instantiate it to the value of 6 and then end this line
-assign x the value of x added to y and then end this line

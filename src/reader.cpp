@@ -6,17 +6,10 @@
 
 #include "reader.h"
 
-Reader::Reader(std::string filename) {
-	m_closed = false;
-	m_filename = new char [filename.length() + 1];
-	std::strcpy(m_filename, filename.c_str());
-}
-
 Reader::~Reader() {
 	if (!m_closed) {
 		close_file();
 	}
-	delete m_filename;
 }
 
 /*

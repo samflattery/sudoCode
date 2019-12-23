@@ -46,5 +46,5 @@ std::ostream& operator<<(std::ostream &os, const Kind &k) {
 }
 
 std::ostream& operator<<(std::ostream &os, const Token &t) {
-	return os << "Token: " << t.kind << "\tLexeme: " << t.lexeme << std::endl;
+	return os << "Token: " << t.kind << "\tLexeme: " << t.lexeme;
 }
