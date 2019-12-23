@@ -11,7 +11,6 @@
 #include <ostream>
 
 enum Rule {
-	TYPE,
 	CONST,
 	DECLRTR,
 	DECLRTN,

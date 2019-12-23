@@ -20,11 +20,14 @@ std::ostream& operator<<(std::ostream &os, const Kind &k) {
 		case ID:
 			os << "ID";
 			break;
-		case INT:
-			os << "INT";
+		case TYPE:
+			os << "TYPE";
 			break;
-		case ARITH_OP:
-			os << "ARITH_OP";
+		case ADD_OP:
+			os << "ADD_OP";
+			break;
+		case MUL_OP:
+			os << "MUL_OP";
 			break;
 		case LITERAL:
 			os << "LITERAL";

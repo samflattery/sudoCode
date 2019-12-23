@@ -23,9 +23,9 @@ bool Lexer::is_number(string& s) {
  * register various tokens with the dfa
  */
 void Lexer::register_types() {
-	vector<struct state> states =	{	{ "a whole number", INT, "" },
-										{ "a sequence of characters", STRING, ""},
-										{ "a character", CHAR, "" }
+	vector<struct state> states =	{	{ "a whole number", TYPE, "INT" },
+										{ "a sequence of characters", TYPE, "STRING"},
+										{ "a character", TYPE, "CHAR" }
 									};
 	for (auto st : states) {
 		m_states.push_back(st);
@@ -33,11 +33,11 @@ void Lexer::register_types() {
 }
 
 void Lexer::register_operators() {
-	vector<struct state> states =	{	{ "added to", ARITH_OP, "+" },
-										{ "subtracted from", ARITH_OP, "-" },
-										{ "multiplied by", ARITH_OP, "*" },
-										{ "divided by", ARITH_OP, "/"},
-										{ "modulo", ARITH_OP, "%" }
+	vector<struct state> states =	{	{ "added to", ADD_OP, "+" },
+										{ "subtracted from",  ADD_OP, "-" },
+										{ "multiplied by", MUL_OP, "*" },
+										{ "divided by", MUL_OP, "/"},
+										{ "modulo", MUL_OP, "%" }
 									};
 	for (auto st : states) {
 		m_states.push_back(st);

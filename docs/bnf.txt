@@ -38,7 +38,7 @@
 
 <declarator> ::= <type-specifier> called <identifier>
 
-<declaration-expression> ::= declare that <declarator> exists and <assignment-operator> <expression>
+<declaration-expression> ::= declare that <declarator> exists and <assignment-operator> (<expression> | <primary-expression>)
 
 <assignment-expression> ::= <assignment-operator> <expression>
 
