@@ -1,3 +1,9 @@
+/*
+ * tokens.h
+ * --------
+ * defines the tokens that the lexer generates
+ */
+
 #ifndef __TOKENS_H__
 #define __TOKENS_H__
 

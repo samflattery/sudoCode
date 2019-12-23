@@ -1,3 +1,10 @@
+/*
+ * lexer.cpp
+ * ---------
+ * defines a lexer that transforms a sequence of characters read from a file
+ * into a vector of tokens
+ */
+
 #ifndef __LEXER_H__
 #define __LEXER_H__
 

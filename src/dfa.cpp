@@ -1,6 +1,13 @@
+/*
+ * dfa.cpp
+ * -------
+ * implements the DFA class
+ */
+
 #include "dfa.h"
 
-/* register_string:
+/*
+ * register_string:
  * ----------------
  *  registers a new string associated with kind and lexeme to be a new accepting
  *  state of the DFA
@@ -25,7 +32,8 @@ void DFA::register_states(vector<struct state>& states) {
 	}
 }
 
-/* recognize_string:
+/*
+ * recognize_string:
  * -----------------
  *  returns true iff s has been registered as an accepting state
  *  if so, sets k and l to the corresponding kind and lexeme

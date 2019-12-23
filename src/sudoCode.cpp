@@ -1,3 +1,9 @@
+/*
+ * sudoCode.cpp
+ * ------------
+ * runs the lexer and parser to create a parse tree
+ */
+
 #include "sudoCode.h"
 
 int main(int argc, char *argv[]) {

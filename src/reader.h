@@ -1,3 +1,9 @@
+/*
+ * reader.h
+ * --------
+ * defines the Reader class that reads a given file and returns a char *
+ */
+
 #include <string>
 #include <cstring>
 #include <sys/mman.h>

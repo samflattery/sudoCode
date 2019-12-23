@@ -1,3 +1,10 @@
+/*
+ * parsetree.h
+ * -----------
+ * defines the nodes of a parse tree, which are either leaves or interior nodes
+ * and inherit from ParseTreeNode
+ */
+
 #ifndef __PARSETREE_H__
 #define __PARSETREE_H__
 

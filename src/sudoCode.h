@@ -1,3 +1,9 @@
+/*
+ * sudoCode.h
+ * ------------
+ * includes for sudoCode.cpp
+ */
+
 #ifndef __SUDO_H__
 #define __SUDO_H__
 

@@ -1,11 +1,27 @@
+/*
+ * lexer.cpp
+ * ---------
+ * implements the Lexer class
+ */
+
 #include "lexer.h"
 
+/*
+ * is_number:
+ * ----------
+ * return true iff the input string is numeric
+ */
 bool Lexer::is_number(string& s) {
 	string::const_iterator it = s.begin();
 	while (it != s.end() && std::isdigit(*it)) ++it;
 	return !s.empty() && it == s.end();
 }
 
+/*
+ * register functions:
+ * -------------------
+ * register various tokens with the dfa
+ */
 void Lexer::register_types() {
 	vector<struct state> states =	{	{ "a whole number", INT, "" },
 										{ "a sequence of characters", STRING, ""},
@@ -56,6 +72,13 @@ void Lexer::register_states() {
 	m_dfa.register_states(m_states);
 }
 
+/*
+ * parse_word:
+ * -----------
+ * parses a word as an identifier or constant
+ * returns true iff successfully parsed the word and modifies the class token
+ * vector
+ */
 bool Lexer::parse_word() {
 	std::string word;
 	while (*m_str != '\0' && !isspace(*m_str)) {
@@ -68,6 +91,12 @@ bool Lexer::parse_word() {
 	return true;
 }
 
+/*
+ * tokenize:
+ * ---------
+ * transforms the class's char * to a vector of tokens using the dfa and
+ * parse_word
+ */
 vector<Token> Lexer::tokenize() {
 	register_states();
 	Token tok;

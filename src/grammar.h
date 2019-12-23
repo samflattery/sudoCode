@@ -1,3 +1,10 @@
+/*
+ * grammar.h
+ * ---------
+ * defines the grammar rules that are used by the parser when generating the
+ * parse tree
+ */
+
 #ifndef __GRAMMAR_H__
 #define __GRAMMAR_H__
 

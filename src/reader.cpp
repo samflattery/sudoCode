@@ -1,3 +1,9 @@
+/*
+ * reader.cpp
+ * ----------
+ * implements the reader class
+ */
+
 #include "reader.h"
 
 Reader::Reader(std::string filename) {
@@ -13,6 +19,12 @@ Reader::~Reader() {
 	delete m_filename;
 }
 
+/*
+ * read_file:
+ * ----------
+ * reads m_filename and returns a char * to its contents, setting length to the
+ * length of the file
+ */
 const char *Reader::read_file(size_t &length) {
 	m_fd = open(m_filename, O_RDONLY);
 	if (m_fd == -1) {

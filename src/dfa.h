@@ -1,3 +1,10 @@
+/*
+ * dfa.h
+ * -------
+ * defines a DFA class that recognizes registered strings to help the lexer
+ * recognize tokens
+ */
+
 #include <iostream>
 #include <string>
 #include <vector>
