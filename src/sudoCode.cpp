@@ -9,19 +9,26 @@ using std::endl;
 using std::cout;
 using std::cerr;
 
+/*
+ * generate_graph:
+ * ---------------
+ * output a graphviz graph of tree to a file at path file_s
+ */
 void generate_graph(INode tree, std::string file_s) {
+	/* dot_file is the file without the 'png' prefix to which the dot prefix
+	 * will be added so that a dot file can be created to feed to graphviz */
 	std::string dot_file = file_s.substr(0, file_s.size() - 3);
-	cout << dot_file << endl;
 	dot_file += "dot";
-	tree.show_tree(dot_file.c_str());
+	tree.show_tree(dot_file.c_str()); /* generate the dot file */
 	if (fork() == 0) {
 		std::string cmd = "dot";
 		std::string arg0 = "-Tpng";
 		std::string arg1 = dot_file;
 		std::string arg2 = "-o" + file_s;
 		char* const args[] = { &cmd[0], &arg0[0], &arg1[0], &arg2[0], NULL };
-		if (execvp(args[0], args) < 0) {
-			cerr << "error generating graph" << endl;
+		if (execvp(args[0], args) < 0) { /* run the graphviz program */
+			cerr << "error generating graph: ensure you have graphviz installed"
+			   << " (brew install graphviz)" << endl;
 			exit(1);
 		}
 	}
