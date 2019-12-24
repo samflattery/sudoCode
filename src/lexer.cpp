@@ -57,10 +57,10 @@ void Lexer::register_declarations() {
 }
 
 void Lexer::register_eol() {
-	vector<struct state> states = {{ "and then end this line", EOL, "" }};
-	for (auto st : states) {
-		m_states.push_back(st);
-	}
+	/* vector<struct state> states = {{ "and then end this line", EOL, "" }}; */
+	/* for (auto st : states) { */
+	/* 	m_states.push_back(st); */
+	/* } */
 }
 
 void Lexer::register_states() {
@@ -100,12 +100,15 @@ vector<Token> Lexer::tokenize() {
 	register_states();
 	Token tok;
 	while (*m_str) {
-		if (m_dfa.recognize_string(m_str, tok)) {
+		if (*m_str == '\n') {
+			m_tokens.push_back({ EOL, "" });
+		} else if (m_dfa.recognize_string(m_str, tok)) {
 			m_tokens.push_back(tok);
 		} else {
 			parse_word();
 		}
 		m_str++;
 	}
+	m_tokens.push_back({ EOL, "" });
 	return m_tokens;
 }

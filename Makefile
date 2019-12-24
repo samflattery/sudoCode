@@ -2,7 +2,7 @@
 
 CC = gcc
 CXX = g++-9
-CXXFLAGS = -g -Og -Wall -std=c++17
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wshadow -Wpedantic
 DEPS = sudoCode.h parser.h lexer.h dfa.h tokens.h reader.h parsetree.h grammar.h
 OBJDIR = build
 vpath %.h src

@@ -68,8 +68,7 @@ int main(int argc, char *argv[]) {
 				if (optopt == 'g') {
 					cerr << "usage: -g <filepath>" << endl;
 				} else {
-					cerr << "unknown option character " << (char) optopt <<
-						endl;
+					cerr << "unknown option " << (char) optopt << endl;
 				}
 				return 1;
 			default:
