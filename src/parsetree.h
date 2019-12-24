@@ -8,16 +8,18 @@
 #ifndef __PARSETREE_H__
 #define __PARSETREE_H__
 
-#include "grammar.h"
-#include "tokens.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include "grammar.h"
+#include "tokens.h"
+#include "ast.h"
 
 using std::endl;
 using std::vector;
 using std::shared_ptr;
+using std::make_shared;
 
 class ParseTreeNode {
 public:
@@ -26,7 +28,9 @@ public:
 	virtual ~ParseTreeNode() {}
 	virtual void set_id(size_t id) = 0;
 	virtual size_t get_id() = 0;
+	virtual shared_ptr<AST> to_ast() = 0;
 	virtual void generate_vertex(std::ofstream &fout) = 0;
+	virtual Token *get_token() = 0;
 private:
 };
 
@@ -34,18 +38,27 @@ class InteriorNode : public ParseTreeNode {
 public:
 	InteriorNode(Rule rule) : m_rule(rule), m_id(0) {}
 	~InteriorNode() {}
+
+	/* util functions */
 	void set_children(vector<shared_ptr<ParseTreeNode>> children);
 	vector<shared_ptr<ParseTreeNode>> get_children();
 	void add_child(shared_ptr<ParseTreeNode> child);
 	Rule m_rule;
+	Token *get_token() { return NULL; }
+
+	/* generate AST */
+	shared_ptr<AST> to_ast();
+
+	/* traversing/generating graph */
 	void traverse();
 	void traverse(int depth);
 	void show_tree(const char filename[]);
-	virtual void set_id(size_t id);
-	virtual size_t get_id();
+	virtual void set_id(size_t id)	{ m_id = id; }
+	virtual size_t get_id()			{ return m_id; }
 	virtual void generate_vertex(std::ofstream &fout);
 private:
 	vector<shared_ptr<ParseTreeNode>> m_children;
+	/* used to generate the graph */
 	size_t m_id;
 	void generate_edge(std::ofstream &fout);
 };
@@ -55,10 +68,16 @@ public:
 	LeafNode(Token tok) : m_tok(tok), m_id(0) {}
 	~LeafNode() {}
 	Token m_tok;
+	Token *get_token() { return &m_tok; }
+
+	/* generate AST */
+	shared_ptr<AST> to_ast();
+
+	/* traversing/generating graph */
 	void traverse();
 	void traverse(int depth);
-	virtual void set_id(size_t id);
-	virtual size_t get_id();
+	virtual void set_id(size_t id)	{ m_id = id; }
+	virtual size_t get_id()			{ return m_id; }
 	virtual void generate_vertex(std::ofstream &fout);
 private:
 	size_t m_id;

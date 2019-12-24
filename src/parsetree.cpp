@@ -11,8 +11,57 @@ typedef InteriorNode INode;
 typedef LeafNode LNode;
 
 /*
+ **********
+ * to_ast *
+ **********
+ */
+
+shared_ptr<AST> InteriorNode::to_ast() {
+	vector<shared_ptr<AST>> children;
+	/* collapse rules that only have one operand */
+	switch (m_rule) {
+		case MAIN_FUN:
+		case STMT:
+		case EXP_STMT:
+		case EXP:
+		case FACTOR:
+		case PRIM_EXP:
+			return m_children[0]->to_ast();
+	}
+	/* for (auto child : m_children) { */
+		/* children.push_back(child->to_ast()); */
+	/* } */
+	switch (m_rule) {
+		case ADD_EXP:
+		case MULT_EXP:
+			switch (m_children.size()) {
+				case 1:
+					return m_children[0]->to_ast();
+				default:
+					shared_ptr<AST> l_child = m_children[0]->to_ast();
+					shared_ptr<AST> r_child = m_children[2]->to_ast();
+					Token tok = *m_children[1]->get_token();
+					shared_ptr<AST> op = make_shared<BinaryOperator>(tok, l_child,
+							r_child);
+					return op;
+			}
+	}
+	return nullptr;
+}
+
+shared_ptr<AST> LeafNode::to_ast() {
+	shared_ptr<AST> ast;
+	switch (m_tok.kind) {
+		case LITERAL:
+			return make_shared<Number>(m_tok);
+		default:
+			return nullptr;
+	}
+}
+
+/*
  ******************
- * interior nodes *
+ * util functions *
  ******************
  */
 void InteriorNode::set_children(vector<shared_ptr<ParseTreeNode>> children) {
@@ -25,6 +74,25 @@ vector<shared_ptr<ParseTreeNode>> InteriorNode::get_children() {
 
 void InteriorNode::add_child(shared_ptr<ParseTreeNode> child) {
 	m_children.push_back(child);
+}
+
+
+/*
+ ********************
+ * traversing/graph *
+ ********************
+ */
+void LeafNode::traverse() {
+	std::cout << m_tok << std::endl;
+}
+
+void LeafNode::traverse(int depth) {
+	std::string d(depth * 2, '-');
+	std::cout << d << ">" << m_tok << std::endl;
+}
+
+void LeafNode::generate_vertex(std::ofstream &fout) {
+	fout << " node" << m_id << "[label = \"<f0> " << m_tok << "\"];" << endl;
 }
 
 void InteriorNode::traverse() {
@@ -55,7 +123,7 @@ void InteriorNode::generate_vertex(std::ofstream &fout) {
 
 /*
  * generate_edge:
- * ----------------
+ * --------------
  * writes a graphviz edge to an open file stream
  * nodes are of the form: "nodei":fj->"nodek":fl;
  */
@@ -109,38 +177,5 @@ void InteriorNode::show_tree(const char filename[]) {
 	}
 
 	fout << "}" << std::endl;
-}
-
-void InteriorNode::set_id(size_t id) {
-	m_id = id;
-}
-size_t InteriorNode::get_id() {
-	return m_id;
-}
-
-/*
- **************
- * leaf nodes *
- **************
- */
-void LeafNode::traverse() {
-	std::cout << m_tok << std::endl;
-}
-
-
-void LeafNode::traverse(int depth) {
-	std::string d(depth * 2, '-');
-	std::cout << d << ">" << m_tok << std::endl;
-}
-
-void LeafNode::set_id(size_t id) {
-	m_id = id;
-}
-size_t LeafNode::get_id() {
-	return m_id;
-}
-
-void LeafNode::generate_vertex(std::ofstream &fout) {
-	fout << " node" << m_id << "[label = \"<f0> " << m_tok << "\"];" << endl;
 }
 

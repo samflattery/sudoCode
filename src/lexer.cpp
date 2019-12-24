@@ -83,7 +83,6 @@ bool Lexer::parse_word() {
 	while (*m_str != '\0' && !isspace(*m_str)) {
 		word += *m_str;
 
-		std::cout << "parse word:" << *m_str << std::endl;
 		m_str++;
 		/* need to leave the last newline to be picked up as eol */
 		if (*m_str == '\n') {

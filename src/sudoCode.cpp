@@ -101,7 +101,11 @@ int main(int argc, char *argv[]) {
 	if (graph_flag) {
 		generate_graph(tree, file_s);
 	}
-	tree.traverse(0);
+	auto ast = tree.to_ast();
+	if (auto I = dynamic_cast<BinaryOperator*>(&*ast)) {
+		I->show_tree("graph2.dot");
+	}
+	std::cout << ast->execute_node() << std::endl;
 	return 0;
 
 }
