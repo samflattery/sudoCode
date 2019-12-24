@@ -70,7 +70,7 @@ shared_ptr<PNode> Parser::parse_exp() {
 		case LPAREN:
 		case RPAREN:
 		case ID:
-			child = parse_arith_exp();
+			child = parse_add_exp();
 			break;
 		default:
 			return nullptr;
@@ -83,9 +83,9 @@ shared_ptr<PNode> Parser::parse_eol() {
 	return parse_token(EOL);
 }
 
-shared_ptr<PNode> Parser::parse_arith_exp() {
-	shared_ptr<INode> P = make_shared<INode>(ARITH_EXP);
-	shared_ptr<PNode> term = parse_term();
+shared_ptr<PNode> Parser::parse_add_exp() {
+	shared_ptr<INode> P = make_shared<INode>(ADD_EXP);
+	shared_ptr<PNode> term = parse_mult_exp();
 	if (term == nullptr) {
 		return nullptr;
 	}
@@ -94,7 +94,7 @@ shared_ptr<PNode> Parser::parse_arith_exp() {
 	Token add = peek();
 	while (add.kind == ADD_OP) {
 		shared_ptr<PNode> add_op = parse_token(ADD_OP);
-		shared_ptr<PNode> term2 = parse_term();
+		shared_ptr<PNode> term2 = parse_mult_exp();
 		if (term2 == nullptr) {
 			return nullptr;
 		}
@@ -229,8 +229,8 @@ shared_ptr<PNode> Parser::parse_token(Kind k) {
  * arithmetic *
  **************
  */
-shared_ptr<PNode> Parser::parse_term() {
-	shared_ptr<INode> P = make_shared<INode>(TERM);
+shared_ptr<PNode> Parser::parse_mult_exp() {
+	shared_ptr<INode> P = make_shared<INode>(MULT_EXP);
 	shared_ptr<PNode> factor = parse_factor();
 	if (factor == nullptr) {
 		return nullptr;

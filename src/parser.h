@@ -49,7 +49,7 @@ private:
 	/* expressions */
 	shared_ptr<PNode> parse_exp();
 	shared_ptr<PNode> parse_assign_exp();
-	shared_ptr<PNode> parse_arith_exp();
+	shared_ptr<PNode> parse_add_exp();
 	shared_ptr<PNode> parse_declr_exp();
 	shared_ptr<PNode> parse_prim_exp();
 	shared_ptr<PNode> parse_eol();
@@ -62,7 +62,7 @@ private:
 	shared_ptr<PNode> parse_assigner();
 
 	/* arithmetic */
-	shared_ptr<PNode> parse_term();
+	shared_ptr<PNode> parse_mult_exp();
 	shared_ptr<PNode> parse_factor();
 };
 

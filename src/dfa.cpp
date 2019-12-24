@@ -51,7 +51,7 @@ bool DFA::recognize_string(const char*& c, Token& tok) {
 			c++;
 		}
 
-		/* failed to match */
+		/* failed to match, start from the beginning of the word again */
 		if (i != match.str.size()) {
 			c = start;
 			continue;
@@ -59,6 +59,12 @@ bool DFA::recognize_string(const char*& c, Token& tok) {
 
 		tok.kind = match.kind;
 		tok.lexeme = match.lexeme;
+
+		/* need to pick up the \n in the next iteration of the tokenizer,
+		 * but need to skip spaces */
+		if (*c == '\n') {
+			c--;
+		}
 		return true;
 	}
 	return false;

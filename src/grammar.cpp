@@ -2,14 +2,14 @@
 
 std::ostream& operator<<(std::ostream &os, Rule &r) {
 	switch (r) {
-		case ARITH_EXP:
-			os << "ARITH_EXP";
-			break;
 		case EXP:
 			os << "EXP";
 			break;
-		case TERM:
-			os << "TERM";
+		case ADD_EXP:
+			os << "ADD_EXP";
+			break;
+		case MULT_EXP:
+			os << "MULT_EXP";
 			break;
 		case FACTOR:
 			os << "FACTOR";

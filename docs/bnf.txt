@@ -44,9 +44,9 @@
 
 <assigner> ::= assign <identifier> the value of
 
-<arithmetic-expression> ::= <term> (<additive-operator> <term>)*
+<additive-expression> ::= <multiplicative-expression> (<additive-operator> <multiplicative-expression>)*
 
-<term> ::= <factor> (<multiplicative-operator> <factor>)*
+<multiplicative-expression> ::= <factor> (<multiplicative-operator> <factor>)*
 
 <factor> ::= <primary-expression>
 
