@@ -26,14 +26,30 @@ InteriorNode Parser::generate_parse_tree() {
  **************
  */
 shared_ptr<PNode> Parser::parse_statement() {
+	/*
+	<statement> ::= <expression-statement>
+				  | <if-statement>
+				  | <iteration-statement>
+				  | <jump-statement>
+				  | <compound-statement>
+	*/
 	shared_ptr<INode> P = make_shared<INode>(STMT);
 	P->add_child(parse_exp_stmt());
 	return P;
 }
 
 shared_ptr<PNode> Parser::parse_exp_stmt() {
+	/* <expression-statement> ::= (<expression>)? <eol> */
 	Token tok = peek();
 	shared_ptr<INode> P = make_shared<INode>(EXP_STMT);
+	if (tok.kind == EOL) {
+		shared_ptr<PNode> eol_child = parse_eol();
+		if (eol_child == nullptr) {
+			return nullptr;
+		}
+		P->add_child(eol_child);
+		return P;
+	}
 	shared_ptr<PNode> exp_child = parse_exp();
 	if (exp_child == nullptr) {
 		return nullptr;
@@ -52,6 +68,11 @@ shared_ptr<PNode> Parser::parse_exp_stmt() {
  ***************
  */
 shared_ptr<PNode> Parser::parse_exp() {
+	/*
+	<expression> ::= <assignment-expression>
+				   | <arithmetic-expression>
+				   | <declaration-expression>
+	*/
 	Token tok = peek();
 	Kind kind = tok.kind;
 	shared_ptr<INode> P = make_shared<INode>(EXP);
@@ -85,6 +106,10 @@ shared_ptr<PNode> Parser::parse_eol() {
 
 
 shared_ptr<PNode> Parser::parse_declr_exp() {
+	/*
+	<declaration-expression> ::= declare that <declarator> exists and
+	 							 <assignment-expression>
+	 */
 	shared_ptr<INode> P = make_shared<INode>(DECLRTN);
 	vector<shared_ptr<PNode>> children;
 	shared_ptr<PNode> declr = parse_token(DECLR);
@@ -108,6 +133,10 @@ shared_ptr<PNode> Parser::parse_declr_exp() {
 }
 
 shared_ptr<PNode> Parser::parse_assign_exp() {
+	/*
+	<assignment-expression> ::= <assigner> ( <expression> |
+														<primary-expression> )
+    */
 	shared_ptr<INode> P = make_shared<INode>(ASSIGN_EXP);
 	shared_ptr<PNode> phrase = parse_assigner();
 	if (phrase == NULL) {
@@ -126,6 +155,10 @@ shared_ptr<PNode> Parser::parse_assign_exp() {
 
 
 shared_ptr<PNode> Parser::parse_prim_exp() {
+	/*
+	<primary-expression> ::= <identifier>
+						   | <constant>
+	*/
 	Token tok = peek();
 	shared_ptr<INode> P = make_shared<INode>(PRIM_EXP);
 	shared_ptr<PNode> child;
@@ -149,6 +182,7 @@ shared_ptr<PNode> Parser::parse_prim_exp() {
  ********************
  */
 shared_ptr<PNode> Parser::parse_declarator() {
+	/* <declarator> ::= <type-specifier> called <identifier> */
 	shared_ptr<INode> P = make_shared<INode>(DECLRTR);
 	shared_ptr<PNode> type = parse_token(TYPE);
 	if (type == nullptr) {
@@ -168,6 +202,7 @@ shared_ptr<PNode> Parser::parse_declarator() {
 }
 
 shared_ptr<PNode> Parser::parse_assigner() {
+	/* <assigner> ::= assign <identifier> the value of */
 	shared_ptr<INode> P = make_shared<INode>(ASSIGNR);
 	shared_ptr<PNode> assgn = parse_token(ASSIGN);
 	shared_ptr<PNode> id = parse_token(ID);
@@ -209,6 +244,10 @@ shared_ptr<PNode> Parser::parse_token(Kind k) {
  */
 
 shared_ptr<PNode> Parser::parse_add_exp() {
+	/*
+	<additive-expression> ::= <multiplicative-expression>
+	 					(<additive-operator> <multiplicative-expression>)?
+	*/
 	shared_ptr<INode> P = make_shared<INode>(ADD_EXP);
 	shared_ptr<PNode> term = parse_mult_exp();
 	if (term == nullptr) {
@@ -224,8 +263,6 @@ shared_ptr<PNode> Parser::parse_add_exp() {
 		if (add_op == nullptr || term2 == nullptr) {
 			return nullptr;
 		}
-		/* children.push_back(add_op); */
-		/* children.push_back(term2); */
 		shared_ptr<INode> n = make_shared<INode>(ADD_EXP);
 		vector<shared_ptr<PNode>> children2;
 		if (first) {
@@ -233,7 +270,6 @@ shared_ptr<PNode> Parser::parse_add_exp() {
 			first = false;
 		} else {
 			children2.push_back(P);
-
 		}
 		children2.push_back(add_op);
 		children2.push_back(term2);
@@ -248,6 +284,10 @@ shared_ptr<PNode> Parser::parse_add_exp() {
 }
 
 shared_ptr<PNode> Parser::parse_mult_exp() {
+	/*
+	<multiplicative-expression> ::= <factor>
+	 					(<multiplicative-operator> <factor>)?
+	*/
 	shared_ptr<INode> P = make_shared<INode>(MULT_EXP);
 	shared_ptr<PNode> factor = parse_factor();
 	if (factor == nullptr) {
@@ -263,9 +303,6 @@ shared_ptr<PNode> Parser::parse_mult_exp() {
 		if (mult_op == nullptr || factor2 == nullptr) {
 			return nullptr;
 		}
-		/* children.push_back(mult_op); */
-		/* children.push_back(factor2); */
-
 		vector<shared_ptr<PNode>> children2;
 		shared_ptr<INode> n = make_shared<INode>(MULT_EXP);
 		if (first) {
@@ -288,6 +325,7 @@ shared_ptr<PNode> Parser::parse_mult_exp() {
 }
 
 shared_ptr<PNode> Parser::parse_factor() {
+	/* <factor> ::= <primary-expression> */
 	shared_ptr<INode> P = make_shared<INode>(FACTOR);
 	shared_ptr<PNode> child = parse_prim_exp();
 	if (child == nullptr) {

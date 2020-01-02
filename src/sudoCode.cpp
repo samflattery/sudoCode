@@ -102,7 +102,6 @@ int main(int argc, char *argv[]) {
 		generate_graph(tree, file_s);
 	}
 	auto ast = tree.to_ast();
-	std::cout << "to ast" << std::endl;
 	if (auto I = dynamic_cast<BinaryOperator*>(&*ast)) {
 		I->show_tree("graph2.dot");
 	}
