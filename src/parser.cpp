@@ -83,28 +83,6 @@ shared_ptr<PNode> Parser::parse_eol() {
 	return parse_token(EOL);
 }
 
-shared_ptr<PNode> Parser::parse_add_exp() {
-	shared_ptr<INode> P = make_shared<INode>(ADD_EXP);
-	shared_ptr<PNode> term = parse_mult_exp();
-	if (term == nullptr) {
-		return nullptr;
-	}
-	vector<shared_ptr<PNode>> children;
-	children.push_back(term);
-	Token add = peek();
-	while (add.kind == ADD_OP) {
-		shared_ptr<PNode> add_op = parse_token(ADD_OP);
-		shared_ptr<PNode> term2 = parse_mult_exp();
-		if (term2 == nullptr) {
-			return nullptr;
-		}
-		children.push_back(add_op);
-		children.push_back(term2);
-		add = peek();
-	}
-	P->set_children(children);
-	return P;
-}
 
 shared_ptr<PNode> Parser::parse_declr_exp() {
 	shared_ptr<INode> P = make_shared<INode>(DECLRTN);
@@ -229,6 +207,46 @@ shared_ptr<PNode> Parser::parse_token(Kind k) {
  * arithmetic *
  **************
  */
+
+shared_ptr<PNode> Parser::parse_add_exp() {
+	shared_ptr<INode> P = make_shared<INode>(ADD_EXP);
+	shared_ptr<PNode> term = parse_mult_exp();
+	if (term == nullptr) {
+		return nullptr;
+	}
+	vector<shared_ptr<PNode>> children;
+	children.push_back(term);
+	bool first = true;
+	Token add = peek();
+	while (add.kind == ADD_OP) {
+		shared_ptr<PNode> add_op = parse_token(ADD_OP);
+		shared_ptr<PNode> term2 = parse_mult_exp();
+		if (add_op == nullptr || term2 == nullptr) {
+			return nullptr;
+		}
+		/* children.push_back(add_op); */
+		/* children.push_back(term2); */
+		shared_ptr<INode> n = make_shared<INode>(ADD_EXP);
+		vector<shared_ptr<PNode>> children2;
+		if (first) {
+			children2.push_back(term);
+			first = false;
+		} else {
+			children2.push_back(P);
+
+		}
+		children2.push_back(add_op);
+		children2.push_back(term2);
+		n->set_children(children2);
+		P = n;
+		add = peek();
+	}
+	if (first) {
+		P->set_children(children);
+	}
+	return P;
+}
+
 shared_ptr<PNode> Parser::parse_mult_exp() {
 	shared_ptr<INode> P = make_shared<INode>(MULT_EXP);
 	shared_ptr<PNode> factor = parse_factor();
@@ -237,6 +255,7 @@ shared_ptr<PNode> Parser::parse_mult_exp() {
 	}
 	vector<shared_ptr<PNode>> children;
 	children.push_back(factor);
+	bool first = true;
 	Token mult = peek();
 	while (mult.kind == MUL_OP) {
 		shared_ptr<PNode> mult_op = parse_token(MUL_OP);
@@ -244,11 +263,27 @@ shared_ptr<PNode> Parser::parse_mult_exp() {
 		if (mult_op == nullptr || factor2 == nullptr) {
 			return nullptr;
 		}
-		children.push_back(mult_op);
-		children.push_back(factor2);
+		/* children.push_back(mult_op); */
+		/* children.push_back(factor2); */
+
+		vector<shared_ptr<PNode>> children2;
+		shared_ptr<INode> n = make_shared<INode>(MULT_EXP);
+		if (first) {
+			children2.push_back(factor);
+			first = false;
+		} else {
+			children2.push_back(P);
+
+		}
+		children2.push_back(mult_op);
+		children2.push_back(factor2);
+		n->set_children(children2);
+		P = n;
 		mult = peek();
 	}
-	P->set_children(children);
+	if (first) {
+		P->set_children(children);
+	}
 	return P;
 }
 

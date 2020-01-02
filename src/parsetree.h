@@ -30,7 +30,7 @@ public:
 	virtual size_t get_id() = 0;
 	virtual shared_ptr<AST> to_ast() = 0;
 	virtual void generate_vertex(std::ofstream &fout) = 0;
-	virtual Token *get_token() = 0;
+	virtual bool get_token(Token *tok) = 0;
 private:
 };
 
@@ -40,11 +40,13 @@ public:
 	~InteriorNode() {}
 
 	/* util functions */
+	bool get_token(Token *tok) { return false; }
 	void set_children(vector<shared_ptr<ParseTreeNode>> children);
 	vector<shared_ptr<ParseTreeNode>> get_children();
 	void add_child(shared_ptr<ParseTreeNode> child);
+	shared_ptr<ParseTreeNode> pop_child();
+
 	Rule m_rule;
-	Token *get_token() { return NULL; }
 
 	/* generate AST */
 	shared_ptr<AST> to_ast();
@@ -68,7 +70,7 @@ public:
 	LeafNode(Token tok) : m_tok(tok), m_id(0) {}
 	~LeafNode() {}
 	Token m_tok;
-	Token *get_token() { return &m_tok; }
+	bool get_token(Token *tok) { *tok = m_tok; return true; }
 
 	/* generate AST */
 	shared_ptr<AST> to_ast();

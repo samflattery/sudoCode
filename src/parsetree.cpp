@@ -15,7 +15,6 @@ typedef LeafNode LNode;
  * to_ast *
  **********
  */
-
 shared_ptr<AST> InteriorNode::to_ast() {
 	vector<shared_ptr<AST>> children;
 	/* collapse rules that only have one operand */
@@ -27,26 +26,24 @@ shared_ptr<AST> InteriorNode::to_ast() {
 		case FACTOR:
 		case PRIM_EXP:
 			return m_children[0]->to_ast();
-	}
-	/* for (auto child : m_children) { */
-		/* children.push_back(child->to_ast()); */
-	/* } */
-	switch (m_rule) {
 		case ADD_EXP:
 		case MULT_EXP:
-			switch (m_children.size()) {
-				case 1:
-					return m_children[0]->to_ast();
-				default:
-					shared_ptr<AST> l_child = m_children[0]->to_ast();
-					shared_ptr<AST> r_child = m_children[2]->to_ast();
-					Token tok = *m_children[1]->get_token();
-					shared_ptr<AST> op = make_shared<BinaryOperator>(tok, l_child,
-							r_child);
-					return op;
+			{
+			shared_ptr<PNode> l_child = pop_child();
+
+			shared_ptr<AST> l_node = l_child->to_ast();
+			if (m_children.empty()) {
+				return l_node;
 			}
+			Token tok;
+			pop_child()->get_token(&tok);
+			shared_ptr<AST> r_node = this->to_ast();
+			shared_ptr<AST> op = make_shared<BinaryOperator>(tok, l_node, r_node);
+			return op;
+			}
+		default:
+			return nullptr;
 	}
-	return nullptr;
 }
 
 shared_ptr<AST> LeafNode::to_ast() {
@@ -64,6 +61,12 @@ shared_ptr<AST> LeafNode::to_ast() {
  * util functions *
  ******************
  */
+shared_ptr<PNode> InteriorNode::pop_child() {
+	shared_ptr<PNode> first = m_children[0];
+	m_children.erase(m_children.begin());
+	return first;
+}
+
 void InteriorNode::set_children(vector<shared_ptr<ParseTreeNode>> children) {
 	m_children = children;
 }
