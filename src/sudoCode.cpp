@@ -5,26 +5,24 @@
  */
 
 #include "sudoCode.h"
+
 using std::endl;
 using std::cout;
 using std::cerr;
 
 /*
- * generate_graph:
- * ---------------
+ * generate_png:
+ * -------------
  * output a graphviz graph of tree to a file at path file_s
  */
-void generate_graph(INode tree, std::string file_s) {
+void generate_png(std::string file_s, const char *dot_file) {
 	/* dot_file is the file without the 'png' prefix to which the dot prefix
 	 * will be added so that a dot file can be created to feed to graphviz */
-	std::string dot_file = file_s.substr(0, file_s.size() - 3);
-	dot_file += "dot";
-	tree.show_tree(dot_file.c_str()); /* generate the dot file */
 	if (fork() == 0) {
 		std::string cmd = "dot";
 		std::string arg0 = "-Tpng";
 		std::string arg1 = dot_file;
-		std::string arg2 = "-o" + file_s;
+		std::string arg2 = "-o " + file_s;
 		char* const args[] = { &cmd[0], &arg0[0], &arg1[0], &arg2[0], NULL };
 		if (execvp(args[0], args) < 0) { /* run the graphviz program */
 			cerr << "error generating graph: ensure you have graphviz installed"
@@ -34,39 +32,74 @@ void generate_graph(INode tree, std::string file_s) {
 	}
 }
 
+/*
+ * get_dot_path:
+ * -------------
+ * converts <file>.png to <file>.dot
+ */
+const char *get_dot_path(std::string file_s) {
+	std::string extension = file_s.substr(file_s.size() - 4);
+	if (extension != ".png") {
+		cerr << "file must be .png" << endl;
+		exit(1);
+	}
+	std::string dot_file = file_s.substr(0, file_s.size() - 3);
+	dot_file += "dot";
+	std::cout << dot_file << std::endl;;
+	return &file_s[0];
+}
+
+/*
+ * generate_graph:
+ * ---------------
+ * generates a dot file for either an AST or a ParseTree
+ * this should probably be a virtual method but i didn't want to make a new
+ * class just for this
+ */
+void generate_graph(INode tree, std::string file_s) {
+	const char *dot = get_dot_path(file_s);
+	tree.show_tree(dot); /* generate the dot file */
+	generate_png(file_s, dot);
+}
+
+void generate_graph(BinaryOperator tree, std::string file_s) {
+	const char *dot = get_dot_path(file_s);
+	tree.show_tree(dot);
+	generate_png(file_s, dot);
+}
+
 int main(int argc, char *argv[]) {
 	if (argc < 2) {
 		cerr << "usage: " << argv[0] << " <src.txt>" << endl;
 		return 1;
 	}
 
-	bool graph_flag = false;
+	bool parse_flag = false;
+	bool ast_flag = false;
 	int c;
-	char *g_filepath = NULL;
-	std::string file_s;
+	std::string parse_file_s;
+	std::string ast_file_s;
 
-	while ((c = getopt(argc, argv, "hg:")) != -1) {
+	while ((c = getopt(argc, argv, "hp:a:")) != -1) {
 		switch (c) {
-			case 'g':
-				{ /* indent to define extension in this scope */
-					graph_flag = true;
-					g_filepath = optarg;
-					file_s = g_filepath;
-					std::string extension = file_s.substr(file_s.size() - 4);
-					if (extension != ".png") {
-						cerr << "file must be .png" << endl;
-						return 1;
-					}
-					break;
-				}
+			case 'p':
+				parse_flag = true;
+				parse_file_s = optarg;
+				break;
+			case 'a':
+				ast_flag = true;
+				ast_file_s = optarg;
+				break;
 			case 'h':
 				cout << "usage: " << argv[0] << " [options] <src.txt>" << endl;
 				cout << "options: " << endl;
 				cout << "-g <filepath>\tgenerate png of parsefile" << endl;
 				break;
 			case '?':
-				if (optopt == 'g') {
-					cerr << "usage: -g <filepath>" << endl;
+				if (optopt == 'p') {
+					cerr << "usage: -p <filepath>" << endl;
+				} else if (optopt == 'a') {
+					cerr << "usage: -p <filepath>" << endl;
 				} else {
 					cerr << "unknown option " << (char) optopt << endl;
 				}
@@ -76,7 +109,6 @@ int main(int argc, char *argv[]) {
 				return 1;
 		}
 	}
-
 
 	char *filename = argv[argc-1];
 	Reader r(filename);
@@ -98,13 +130,16 @@ int main(int argc, char *argv[]) {
 	Parser parser(tokens);
 
 	auto tree = parser.generate_parse_tree();
-	if (graph_flag) {
-		generate_graph(tree, file_s);
+	if (parse_flag) {
+		generate_graph(tree, parse_file_s);
 	}
+
 	auto ast = tree.to_ast();
-	if (auto I = dynamic_cast<BinaryOperator*>(&*ast)) {
-		I->show_tree("graph2.dot");
+	if (ast_flag) {
+		if (auto I = dynamic_cast<BinaryOperator*>(&*ast))
+			generate_graph(*I, ast_file_s);
 	}
+
 	std::cout << ast->execute_node() << std::endl;
 	return 0;
 
