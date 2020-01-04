@@ -98,7 +98,6 @@ vector<Token> Lexer::tokenize() {
 	register_states();
 	Token tok;
 	while (*m_str) {
-		std::cout << *m_str << std::endl;
 		if (*m_str == '(') {
 			m_tokens.push_back({LPAREN, ""});
 		} else if (*m_str == ')') {

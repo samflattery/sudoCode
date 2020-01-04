@@ -15,21 +15,24 @@
 #include "grammar.h"
 #include "tokens.h"
 #include "ast.h"
+#include "tree.h"
 
 using std::endl;
 using std::vector;
 using std::shared_ptr;
 using std::make_shared;
 
-class ParseTreeNode {
+class ParseTreeNode : public Tree {
 public:
-	virtual void traverse()				= 0;
-	virtual void traverse(int)			= 0;
 	virtual void set_id(size_t id)		= 0;
 	virtual size_t get_id()				= 0;
+
+	virtual void generate_edge(std::ofstream &fout) = 0;
+	virtual void generate_vertex(std::ofstream &fout) = 0;
+	virtual shared_ptr<vector<shared_ptr<Tree>>> get_descendents() = 0;
+
 	virtual shared_ptr<AST> to_ast()	= 0;
 	virtual bool get_token(Token *tok)	= 0;
-	virtual void generate_vertex(std::ofstream &fout) = 0;
 private:
 };
 
@@ -43,6 +46,11 @@ public:
 	void add_child(shared_ptr<ParseTreeNode> child);
 	shared_ptr<ParseTreeNode> pop_child();
 
+	/* tree interface */
+	virtual shared_ptr<vector<shared_ptr<Tree>>> get_descendents();
+	virtual void generate_edge(std::ofstream &fout);
+	virtual void generate_vertex(std::ofstream &fout);
+
 	/* getters/setters */
 	/* hack to avoid casting PNodes to Leaf or Interior Nodes */
 	bool get_token(Token *tok)		{ *tok = m_tok; return false; }
@@ -53,16 +61,12 @@ public:
 	shared_ptr<AST> to_ast();
 
 	/* traversing/generating graph */
-	void traverse();
-	void traverse(int depth);
 	void show_tree(const char filename[]);
 private:
 	vector<shared_ptr<ParseTreeNode>> m_children;
 	Token m_tok = { ID, "x" };
 	Rule m_rule;
 	size_t m_id;
-	void generate_edge(std::ofstream &fout);
-	virtual void generate_vertex(std::ofstream &fout);
 };
 
 class LeafNode : public ParseTreeNode {
@@ -77,10 +81,10 @@ public:
 	/* generate AST */
 	shared_ptr<AST> to_ast();
 
-	/* traversing/generating graph */
-	void traverse();
-	void traverse(int depth);
+	/* tree interface */
 	virtual void generate_vertex(std::ofstream &fout);
+	virtual void generate_edge(std::ofstream &fout);
+	virtual shared_ptr<vector<shared_ptr<Tree>>> get_descendents();
 private:
 	Token m_tok;
 	size_t m_id;

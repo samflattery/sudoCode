@@ -8,18 +8,39 @@
 #include <vector>
 #include "tokens.h"
 #include "grammar.h"
+#include "tree.h"
 
 using std::shared_ptr;
 using std::endl;
 using std::vector;
 
-class AST {
+class AST : public Tree {
 public:
 	virtual int execute_node()		= 0;
 	virtual Token get_token()		= 0;
 	virtual size_t get_id()			= 0;
 	virtual void set_id(size_t id)	= 0;
+
+	virtual shared_ptr<vector<shared_ptr<Tree>>> get_descendents() = 0;
 	void generate_vertex(std::ofstream &fout);
+	void generate_edge(std::ofstream &fout);
+};
+
+class MainFunction : public AST {
+public:
+	MainFunction(vector<shared_ptr<AST>> stmt_list) :
+		m_stmts(stmt_list) {}
+	virtual int execute_node();
+
+	/* getters/setters */
+	virtual Token get_token()		{ return m_ret; }
+	virtual size_t get_id()			{ return m_id; }
+	virtual void set_id(size_t id)	{ m_id = id; }
+	virtual shared_ptr<vector<shared_ptr<Tree>>> get_descendents();
+private:
+	vector<shared_ptr<AST>> m_stmts;
+	Token m_ret = {MAIN, ""};
+	size_t m_id;
 };
 
 class BinaryOperator : public AST {
@@ -28,13 +49,14 @@ public:
 		: m_token(t), m_left(l), m_right(r) {}
 	int execute_node();
 
+	/* getters/setters */
 	Token get_token()				{ return m_token; }
 	virtual size_t get_id()			{ return m_id; }
 	virtual void set_id(size_t id)	{ m_id = id; }
 
-	void show_tree(const char filename[]);
+	virtual shared_ptr<vector<shared_ptr<Tree>>> get_descendents();
+
 private:
-	void generate_edge(std::ofstream &fout);
 	Token m_token;
 	shared_ptr<AST> m_left;
 	shared_ptr<AST> m_right;
@@ -45,11 +67,34 @@ class Number : public AST {
 public:
 	Number(Token t) : m_token(t) {}
 	int execute_node();
+
+	/* getters/setters */
 	Token get_token()				{ return m_token; }
 	virtual size_t get_id()			{ return m_id; }
 	virtual void set_id(size_t id)	{ m_id = id; }
+
+	virtual shared_ptr<vector<shared_ptr<Tree>>> get_descendents();
 private:
 	Token m_token;
+	size_t m_id;
+};
+
+class Declarator : public AST {
+public:
+	Declarator(Token type, Token name) : m_type(type), m_name(name) {}
+	int execute_node() { return 0; }
+
+	/* getters/setters */
+	Token get_type()				{ return m_type; }
+	Token get_name()				{ return m_name; }
+	virtual size_t get_id()			{ return m_id; }
+	virtual void set_id(size_t id)	{ m_id = id; }
+	virtual Token get_token()		{ return m_name; }
+
+	virtual shared_ptr<vector<shared_ptr<Tree>>> get_descendents();
+private:
+	Token m_type;
+	Token m_name;
 	size_t m_id;
 };
 

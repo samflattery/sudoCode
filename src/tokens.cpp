@@ -44,6 +44,9 @@ std::ostream& operator<<(std::ostream &os, const Kind &k) {
 		case RPAREN:
 			os << "RPAREN";
 			break;
+		case MAIN:
+			os << "MAIN";
+			break;
 		default:
 			os << "not implemented";
 			break;

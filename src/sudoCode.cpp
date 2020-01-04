@@ -45,7 +45,6 @@ const char *get_dot_path(std::string file_s) {
 	}
 	std::string dot_file = file_s.substr(0, file_s.size() - 3);
 	dot_file += "dot";
-	std::cout << dot_file << std::endl;;
 	return &file_s[0];
 }
 
@@ -53,16 +52,14 @@ const char *get_dot_path(std::string file_s) {
  * generate_graph:
  * ---------------
  * generates a dot file for either an AST or a ParseTree
- * this should probably be a virtual method but i didn't want to make a new
- * class just for this
  */
-void generate_graph(INode tree, std::string file_s) {
-	const char *dot = get_dot_path(file_s);
-	tree.show_tree(dot); /* generate the dot file */
-	generate_png(file_s, dot);
-}
+/* void generate_graph(INode tree, std::string file_s) { */
+/* 	const char *dot = get_dot_path(file_s); */
+/* 	tree.show_tree(dot); /1* generate the dot file *1/ */
+/* 	generate_png(file_s, dot); */
+/* } */
 
-void generate_graph(BinaryOperator tree, std::string file_s) {
+void generate_graph(Tree& tree, std::string file_s) {
 	const char *dot = get_dot_path(file_s);
 	tree.show_tree(dot);
 	generate_png(file_s, dot);
@@ -136,8 +133,11 @@ int main(int argc, char *argv[]) {
 
 	auto ast = tree.to_ast();
 	if (ast_flag) {
-		if (auto I = dynamic_cast<BinaryOperator*>(&*ast))
+		if (auto I = dynamic_cast<MainFunction*>(&*ast)) {
+			/* I->show_tree(); */
+			std::cout << "trying to make graph\n";
 			generate_graph(*I, ast_file_s);
+		}
 	}
 
 	std::cout << ast->execute_node() << std::endl;
