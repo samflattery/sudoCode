@@ -45,7 +45,7 @@ public:
 
 	/* getters/setters */
 	/* hack to avoid casting PNodes to Leaf or Interior Nodes */
-	bool get_token(Token *tok)		{ return false; }
+	bool get_token(Token *tok)		{ *tok = m_tok; return false; }
 	virtual void set_id(size_t id)	{ m_id = id; }
 	virtual size_t get_id()			{ return m_id; }
 
@@ -58,6 +58,7 @@ public:
 	void show_tree(const char filename[]);
 private:
 	vector<shared_ptr<ParseTreeNode>> m_children;
+	Token m_tok = { ID, "x" };
 	Rule m_rule;
 	size_t m_id;
 	void generate_edge(std::ofstream &fout);

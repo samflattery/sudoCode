@@ -56,18 +56,10 @@ void Lexer::register_declarations() {
 	}
 }
 
-void Lexer::register_eol() {
-	/* vector<struct state> states = {{ "and then end this line", EOL, "" }}; */
-	/* for (auto st : states) { */
-	/* 	m_states.push_back(st); */
-	/* } */
-}
-
 void Lexer::register_states() {
 	register_types();
 	register_operators();
 	register_declarations();
-	register_eol();
 	m_dfa.register_states(m_states);
 }
 
@@ -80,12 +72,12 @@ void Lexer::register_states() {
  */
 bool Lexer::parse_word() {
 	std::string word;
-	while (*m_str != '\0' && !isspace(*m_str)) {
+	while (*m_str != '\0' && !isspace(*m_str) && *m_str != ')') {
 		word += *m_str;
 
 		m_str++;
 		/* need to leave the last newline to be picked up as eol */
-		if (*m_str == '\n') {
+		if (*m_str == '\n' || *m_str == ')') {
 			m_str--;
 			break;
 		}
@@ -106,14 +98,24 @@ vector<Token> Lexer::tokenize() {
 	register_states();
 	Token tok;
 	while (*m_str) {
-		if (*m_str == '\n') {
-			m_tokens.push_back({ EOL, "" });
+		std::cout << *m_str << std::endl;
+		if (*m_str == '(') {
+			m_tokens.push_back({LPAREN, ""});
+		} else if (*m_str == ')') {
+			m_tokens.push_back({RPAREN, ""});
 		} else if (m_dfa.recognize_string(m_str, tok)) {
 			m_tokens.push_back(tok);
 		} else {
 			parse_word();
 		}
 		m_str++;
+		while (*m_str != '\0' && isspace(*m_str)) {
+			/* skip any whitespace */
+			if (*m_str == '\n') {
+				m_tokens.push_back({EOL, ""});
+			}
+			m_str++;
+		}
 	}
 	return m_tokens;
 }

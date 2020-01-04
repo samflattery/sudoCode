@@ -38,6 +38,12 @@ std::ostream& operator<<(std::ostream &os, const Kind &k) {
 		case LITERAL:
 			os << "LITERAL";
 			break;
+		case LPAREN:
+			os << "LPAREN";
+			break;
+		case RPAREN:
+			os << "RPAREN";
+			break;
 		default:
 			os << "not implemented";
 			break;

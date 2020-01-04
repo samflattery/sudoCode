@@ -19,7 +19,6 @@ shared_ptr<AST> InteriorNode::to_ast() {
 		case STMT:
 		case EXP_STMT:
 		case EXP:
-		case FACTOR:
 		case PRIM_EXP:
 			return m_children[0]->to_ast();
 		case ADD_EXP:
@@ -37,6 +36,13 @@ shared_ptr<AST> InteriorNode::to_ast() {
 			shared_ptr<AST> op = make_shared<BinaryOperator>(tok, l_node, r_node);
 			return op;
 			}
+		case FACTOR:
+			if (m_children.size() == 1) {
+				/* primary expression case */
+				return m_children[0]->to_ast();
+			}
+			/* lparen expr rparen case */
+			return m_children[1]->to_ast();
 		default:
 			return nullptr;
 	}

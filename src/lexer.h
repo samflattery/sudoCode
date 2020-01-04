@@ -35,7 +35,6 @@ private:
 	void register_types();
 	void register_operators();
 	void register_declarations();
-	void register_eol();
 	bool parse_word();
 	bool is_number(string& s);
 };

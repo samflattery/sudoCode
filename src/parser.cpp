@@ -325,8 +325,16 @@ shared_ptr<PNode> Parser::parse_mult_exp() {
 }
 
 shared_ptr<PNode> Parser::parse_factor() {
-	/* <factor> ::= <primary-expression> */
+	/* <factor> ::= <primary-expression> | "(" <expr> ")" */
 	shared_ptr<INode> P = make_shared<INode>(FACTOR);
+	Token tok = peek();
+	if (tok.kind == LPAREN) {
+		shared_ptr<PNode> L = parse_token(LPAREN);
+		shared_ptr<PNode> expr = parse_exp();
+		shared_ptr<PNode> R = parse_token(RPAREN);
+		P->set_children({L, expr, R});
+		return P;
+	}
 	shared_ptr<PNode> child = parse_prim_exp();
 	if (child == nullptr) {
 		return nullptr;

@@ -49,6 +49,7 @@
 <multiplicative-expression> ::= <factor> (<multiplicative-operator> <factor>)*
 
 <factor> ::= <primary-expression>
+		   | "(" <expression> ")"
 
 <expression> ::= <assignment-expression>
                | <arithmetic-expression>
