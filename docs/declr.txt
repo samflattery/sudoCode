@@ -1,2 +1,0 @@
-declare that a whole number called x exists and assign it the value of 5 and then end this line
-declare that a whole number called y exists and assign it the value of 6 and then end this line

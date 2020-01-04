@@ -21,4 +21,4 @@ $(OBJDIR)/%.o: %.cpp $(DEPS)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJDIR)/*.o sudoCode a.out
+	rm -f $(OBJDIR)/*.o sudoCode a.out *.png *.dot
