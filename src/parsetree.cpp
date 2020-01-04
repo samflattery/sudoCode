@@ -6,10 +6,6 @@
 
 #include "parsetree.h"
 
-typedef ParseTreeNode PNode;
-typedef InteriorNode INode;
-typedef LeafNode LNode;
-
 /*
  **********
  * to_ast *

@@ -22,7 +22,7 @@ void generate_png(std::string file_s, const char *dot_file) {
 		std::string cmd = "dot";
 		std::string arg0 = "-Tpng";
 		std::string arg1 = dot_file;
-		std::string arg2 = "-o " + file_s;
+		std::string arg2 = "-o" + file_s;
 		char* const args[] = { &cmd[0], &arg0[0], &arg1[0], &arg2[0], NULL };
 		if (execvp(args[0], args) < 0) { /* run the graphviz program */
 			cerr << "error generating graph: ensure you have graphviz installed"

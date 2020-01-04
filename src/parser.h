@@ -19,9 +19,6 @@
 using std::vector;
 using std::shared_ptr;
 using std::make_shared;
-typedef ParseTreeNode PNode;
-typedef InteriorNode INode;
-typedef LeafNode LNode;
 
 class Parser {
 public:
