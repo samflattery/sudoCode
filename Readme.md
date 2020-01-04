@@ -6,5 +6,4 @@ An overly verbose programming language
 ``` 
 mkdir build
 make
-./sudoCode
 ```
