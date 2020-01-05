@@ -9,6 +9,7 @@
 #include "tokens.h"
 #include "grammar.h"
 #include "tree.h"
+#include "symbols.h"
 
 using std::shared_ptr;
 using std::endl;

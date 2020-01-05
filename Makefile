@@ -3,11 +3,11 @@
 CC = gcc
 CXX = g++-9
 CXXFLAGS = -std=c++17 -Wall -Wextra -Wshadow -Wpedantic
-DEPS = sudoCode.h ast.h parser.h lexer.h dfa.h tokens.h reader.h parsetree.h grammar.h tree.h
+DEPS = sudoCode.h ast.h parser.h lexer.h dfa.h tokens.h reader.h parsetree.h grammar.h tree.h symbols.h
 OBJDIR = build
 vpath %.h src
 vpath %.cpp src
-OBJ = $(addprefix $(OBJDIR)/, sudoCode.o ast.o parser.o lexer.o dfa.o reader.o tokens.o parsetree.o grammar.o tree.o)
+OBJ = $(addprefix $(OBJDIR)/, sudoCode.o symbols.o ast.o parser.o lexer.o dfa.o reader.o tokens.o parsetree.o grammar.o tree.o)
 
 # Default build rule
 .PHONY: all
