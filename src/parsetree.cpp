@@ -181,7 +181,7 @@ void InteriorNode::generate_vertex(std::ofstream &fout) {
  */
 void InteriorNode::generate_edge(std::ofstream &fout) {
 	for (size_t i = 0; i < m_children.size(); i++) {
-		fout << "\"node" << m_id << "\":f" << 0 << "->\"node"
+		fout << " \"node" << m_id << "\":f" << 0 << "->\"node"
 			<< m_children[i]->get_id() << "\":f0;" << std::endl;
 	}
 }

@@ -37,7 +37,7 @@ void generate_png(std::string file_s, const char *dot_file) {
  * -------------
  * converts <file>.png to <file>.dot
  */
-const char *get_dot_path(std::string file_s) {
+std::string get_dot_path(std::string file_s) {
 	std::string extension = file_s.substr(file_s.size() - 4);
 	if (extension != ".png") {
 		cerr << "file must be .png" << endl;
@@ -45,7 +45,7 @@ const char *get_dot_path(std::string file_s) {
 	}
 	std::string dot_file = file_s.substr(0, file_s.size() - 3);
 	dot_file += "dot";
-	return &file_s[0];
+	return dot_file;
 }
 
 /*
@@ -60,9 +60,9 @@ const char *get_dot_path(std::string file_s) {
 /* } */
 
 void generate_graph(Tree& tree, std::string file_s) {
-	const char *dot = get_dot_path(file_s);
-	tree.show_tree(dot);
-	generate_png(file_s, dot);
+	std::string dot = get_dot_path(file_s);
+	tree.show_tree(&dot[0]);
+	generate_png(file_s, &dot[0]);
 }
 
 int main(int argc, char *argv[]) {

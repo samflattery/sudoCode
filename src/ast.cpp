@@ -166,7 +166,7 @@ void AST::generate_vertex(std::ofstream &fout) {
 void AST::generate_edge(std::ofstream &fout) {
 	shared_ptr<vector<shared_ptr<Tree>>> desc = get_descendents();
 	for (auto x : *desc) {
-		fout << "\"node" << get_id() << "\":f0->\"node" << x->get_id()
+		fout << " \"node" << get_id() << "\":f0->\"node" << x->get_id()
 			<< "\":f0;" << std::endl;
 	}
 }
