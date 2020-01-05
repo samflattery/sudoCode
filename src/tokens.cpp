@@ -26,8 +26,14 @@ std::ostream& operator<<(std::ostream &os, const Kind &k) {
 		case ID:
 			os << "ID";
 			break;
-		case TYPE:
-			os << "TYPE";
+		case INT:
+			os << "INT";
+			break;
+		case STRING:
+			os << "STRING";
+			break;
+		case CHAR:
+			os << "CHAR";
 			break;
 		case ADD_OP:
 			os << "ADD_OP";

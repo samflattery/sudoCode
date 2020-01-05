@@ -57,7 +57,7 @@ shared_ptr<AST> InteriorNode::to_ast() {
 			shared_ptr<AST> declrtr = pop_child()->to_ast();
 			pop_child();
 			shared_ptr<AST> expr = pop_child()->to_ast();
-			Token tok = {ASSIGN, ""};
+			Token tok = {DECLR, ""};
 			shared_ptr<AST> op = make_shared<BinaryOperator>(tok, declrtr, expr);
 			return op;
 			}
@@ -103,6 +103,8 @@ shared_ptr<AST> LeafNode::to_ast() {
 	switch (m_tok.kind) {
 		case LITERAL:
 			return make_shared<Number>(m_tok);
+		case ID:
+			return make_shared<Identifier>(m_tok);
 		default:
 			return nullptr;
 	}
@@ -141,7 +143,10 @@ void LeafNode::generate_vertex(std::ofstream &fout) {
 	fout << " node" << m_id << "[label = \"<f0> " << m_tok << "\"];" << endl;
 }
 
-void LeafNode::generate_edge(std::ofstream &fout) {}
+void LeafNode::generate_edge(std::ofstream &fout) {
+	/* do nothing */
+	fout << "";
+}
 
 shared_ptr<vector<shared_ptr<Tree>>> LeafNode::get_descendents() {
 	shared_ptr<vector<shared_ptr<Tree>>> ptr =

@@ -1,1 +1,3 @@
 declare that a whole number called x exists and assign it the value of 5
+declare that a whole number called y exists and assign it the value of 10
+x added to y

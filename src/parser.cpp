@@ -184,9 +184,21 @@ shared_ptr<PNode> Parser::parse_prim_exp() {
 shared_ptr<PNode> Parser::parse_declarator() {
 	/* <declarator> ::= <type-specifier> called <identifier> */
 	shared_ptr<INode> P = make_shared<INode>(DECLRTR);
-	shared_ptr<PNode> type = parse_token(TYPE);
-	if (type == nullptr) {
-		return nullptr;
+	Token tok = peek();
+	shared_ptr<PNode> type;
+	switch (tok.kind) {
+		case STRING:
+			type = parse_token(STRING);
+			break;
+		case INT:
+			type = parse_token(INT);
+			break;
+		case CHAR:
+			type = parse_token(CHAR);
+			break;
+		default:
+			return nullptr;
+
 	}
 	shared_ptr<PNode> calld = parse_token(CALLD);
 	if (calld == nullptr) {

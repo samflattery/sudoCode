@@ -134,13 +134,11 @@ int main(int argc, char *argv[]) {
 	auto ast = tree.to_ast();
 	if (ast_flag) {
 		if (auto I = dynamic_cast<MainFunction*>(&*ast)) {
-			/* I->show_tree(); */
-			std::cout << "trying to make graph\n";
 			generate_graph(*I, ast_file_s);
 		}
 	}
 
-	std::cout << ast->execute_node() << std::endl;
+	std::cout << std::get<int>(ast->execute_node()) << std::endl;
 	return 0;
 
 }

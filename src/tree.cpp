@@ -37,7 +37,6 @@ void Tree::show_tree(const char filename[]) {
 		id++;
 		shared_ptr<vector<shared_ptr<Tree>>> desc = P->get_descendents();
 		for (auto x : *desc) {
-			std::cout << x->get_id();
 			queue.push_back(x);
 		}
 		P->generate_vertex(fout);
