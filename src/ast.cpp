@@ -8,8 +8,8 @@ int MainFunction::execute_node() {
 }
 
 shared_ptr<vector<shared_ptr<Tree>>> MainFunction::get_descendents() {
-	shared_ptr<vector<shared_ptr<Tree>>> ptr = std::make_shared<vector<shared_ptr<Tree>>>();
-	/* *ptr = m_stmts; */
+	shared_ptr<vector<shared_ptr<Tree>>> ptr =
+		std::make_shared<vector<shared_ptr<Tree>>>();
 	for (auto st : m_stmts) {
 		ptr->push_back(st);
 		std::cout << st->get_token() << std::endl;;
@@ -19,7 +19,8 @@ shared_ptr<vector<shared_ptr<Tree>>> MainFunction::get_descendents() {
 }
 
 shared_ptr<vector<shared_ptr<Tree>>> BinaryOperator::get_descendents() {
-	shared_ptr<vector<shared_ptr<Tree>>> ptr = std::make_shared<vector<shared_ptr<Tree>>>();
+	shared_ptr<vector<shared_ptr<Tree>>> ptr =
+		std::make_shared<vector<shared_ptr<Tree>>>();
 	std::cout << "getting binop" << std::endl;
 	ptr->push_back(m_left);
 	ptr->push_back(m_right);
@@ -27,13 +28,15 @@ shared_ptr<vector<shared_ptr<Tree>>> BinaryOperator::get_descendents() {
 }
 
 shared_ptr<vector<shared_ptr<Tree>>> Number::get_descendents() {
-	shared_ptr<vector<shared_ptr<Tree>>> ptr = std::make_shared<vector<shared_ptr<Tree>>>();
+	shared_ptr<vector<shared_ptr<Tree>>> ptr =
+		std::make_shared<vector<shared_ptr<Tree>>>();
 	std::cout << "getting num" << std::endl;
 	return ptr;
 }
 
 shared_ptr<vector<shared_ptr<Tree>>> Declarator::get_descendents() {
-	shared_ptr<vector<shared_ptr<Tree>>> ptr = std::make_shared<vector<shared_ptr<Tree>>>();
+	shared_ptr<vector<shared_ptr<Tree>>> ptr =
+		std::make_shared<vector<shared_ptr<Tree>>>();
 	std::cout << "getting declr" << std::endl;
 	return ptr;
 }
@@ -91,67 +94,3 @@ void AST::generate_edge(std::ofstream &fout) {
 			<< "\":f0;" << std::endl;
 	}
 }
-
-/*
- * show_tree:
- * ----------
- * writes a graphviz graph to a given filename
- */
-/* void MainFunction::show_tree(const char filename[]) { */
-/* 	std::ofstream fout; */
-/* 	fout.open(filename, std::ios::out | std::ios::trunc); */
-/* 	fout << "digraph g{" << endl; */
-/* 	fout << " node [shape = record,height=.1];" << endl; */
-
-/* 	/1* vector<AST*> queue; *1/ */
-/* 	vector<shared_ptr<Tree>> queue; */
-/* 	size_t id = 0; */
-
-/* 	/1* perform a BFS of the tree to generate the nodes *1/ */
-/* 	queue.push_back(nullptr); */
-/* 	while (!queue.empty()) { */
-/* 		shared_ptr<Tree> P = queue.front(); */
-/* 		queue.erase(queue.begin()); */
-/* 		if (P == nullptr) { */
-/* 			set_id(id); */
-/* 			id++; */
-/* 			shared_ptr<vector<shared_ptr<Tree>>> desc = get_descendents(); */
-/* 			for (auto x : *desc) { */
-/* 				queue.push_back(x); */
-/* 			} */
-/* 			generate_vertex(fout); */
-/* 			continue; */
-/* 		} */
-/* 		P->set_id(id); */
-/* 		id++; */
-/* 		shared_ptr<vector<shared_ptr<Tree>>> desc = P->get_descendents(); */
-/* 		for (auto x : *desc) { */
-/* 			std::cout << x->get_id(); */
-/* 			queue.push_back(x); */
-/* 		} */
-/* 		P->generate_vertex(fout); */
-/* 	} */
-
-/* 	/1* generate the edges with another BFS *1/ */
-/* 	queue.push_back(nullptr); */
-/* 	while (!queue.empty()) { */
-/* 		shared_ptr<Tree> P = queue.front(); */
-/* 		queue.erase(queue.begin()); */
-/* 		if (P == nullptr) { */
-/* 			shared_ptr<vector<shared_ptr<Tree>>> desc = get_descendents(); */
-/* 			for (auto x : *desc) { */
-/* 				queue.push_back(x); */
-/* 			} */
-/* 			generate_edge(fout); */
-/* 			continue; */
-/* 		} */
-/* 		shared_ptr<vector<shared_ptr<Tree>>> desc = P->get_descendents(); */
-/* 		for (auto x : *desc) { */
-/* 			queue.push_back(x); */
-/* 		} */
-/* 		P->generate_edge(fout); */
-/* 	} */
-
-/* 	fout << "}" << std::endl; */
-/* } */
-

@@ -144,12 +144,14 @@ void LeafNode::generate_vertex(std::ofstream &fout) {
 void LeafNode::generate_edge(std::ofstream &fout) {}
 
 shared_ptr<vector<shared_ptr<Tree>>> LeafNode::get_descendents() {
-	shared_ptr<vector<shared_ptr<Tree>>> ptr = make_shared<vector<shared_ptr<Tree>>>();
+	shared_ptr<vector<shared_ptr<Tree>>> ptr =
+		make_shared<vector<shared_ptr<Tree>>>();
 	return ptr;
 }
 
 shared_ptr<vector<shared_ptr<Tree>>> InteriorNode::get_descendents() {
-	shared_ptr<vector<shared_ptr<Tree>>> ptr = make_shared<vector<shared_ptr<Tree>>>();
+	shared_ptr<vector<shared_ptr<Tree>>> ptr =
+		make_shared<vector<shared_ptr<Tree>>>();
 	for (auto x : m_children) {
 		ptr->push_back(x);
 	}
