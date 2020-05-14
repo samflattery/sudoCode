@@ -18,7 +18,8 @@ using std::cerr;
 void generate_png(std::string file_s, const char *dot_file) {
 	/* dot_file is the file without the 'png' prefix to which the dot prefix
 	 * will be added so that a dot file can be created to feed to graphviz */
-	if (fork() == 0) {
+	int child;
+	if ((child = fork()) == 0) {
 		std::string cmd = "dot";
 		std::string arg0 = "-Tpng";
 		std::string arg1 = dot_file;
@@ -26,9 +27,12 @@ void generate_png(std::string file_s, const char *dot_file) {
 		char* const args[] = { &cmd[0], &arg0[0], &arg1[0], &arg2[0], NULL };
 		if (execvp(args[0], args) < 0) { /* run the graphviz program */
 			cerr << "error generating graph: ensure you have graphviz installed"
-			   << " (brew install graphviz)" << endl;
+			     << " (brew install graphviz)" << endl;
 			exit(1);
 		}
+	} else {
+		waitpid(child, NULL, 0);
+		remove(dot_file);
 	}
 }
 
